@@ -1,0 +1,4 @@
+#ifdef EDITOR_BUILD
+#include "wx/msw/wx.rc"
+#endif
+MAINICON ICON "icon.ico"
