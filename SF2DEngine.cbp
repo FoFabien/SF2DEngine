@@ -52,7 +52,7 @@
 				<Option output="bin/Test/SF2DEngine" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Test/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_53_mingw-64_x86__sfml_24_custom" />
+				<Option compiler="gnu_gcc_compiler_53_mingw-64_x86__sfml_23_custom" />
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-Os" />
@@ -70,7 +70,7 @@
 				<Option output="SF2DEngine" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Editor_Map/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_53_mingw-64_x86__sfml_24_custom" />
+				<Option compiler="gnu_gcc_compiler_53_mingw-64_x86__sfml_23_custom" />
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
@@ -116,416 +116,425 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="alarm.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="alarm.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="animatedsprite.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="animatedsprite.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="component.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="component.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="editor.cpp">
-			<Option target="Editor File Windows" />
-		</Unit>
-		<Unit filename="editor.hpp">
-			<Option target="Editor File Windows" />
-		</Unit>
-		<Unit filename="editor_app.cpp">
-			<Option target="Editor File Windows" />
-		</Unit>
-		<Unit filename="editor_app.hpp">
-			<Option target="Editor File Windows" />
-		</Unit>
-		<Unit filename="engine.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="engine.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="entity.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="entity.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="filesystem.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
+		<Unit filename="src/builder_datapack/main.cpp">
 			<Option target="Pack Builder Windows" />
 		</Unit>
-		<Unit filename="filesystem.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-			<Option target="Pack Builder Windows" />
+		<Unit filename="src/editor_file/editor.cpp">
+			<Option target="Editor File Windows" />
 		</Unit>
-		<Unit filename="game/alarm.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
+		<Unit filename="src/editor_file/editor.hpp">
+			<Option target="Editor File Windows" />
 		</Unit>
-		<Unit filename="game/alarm.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
+		<Unit filename="src/editor_file/editor_app.cpp">
+			<Option target="Editor File Windows" />
 		</Unit>
-		<Unit filename="game/component.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
+		<Unit filename="src/editor_file/editor_app.hpp">
+			<Option target="Editor File Windows" />
 		</Unit>
-		<Unit filename="game/component.hpp">
+		<Unit filename="src/editor_map/mapeditor.cpp">
+			<Option target="Editor Map Windows" />
+		</Unit>
+		<Unit filename="src/editor_map/mapeditor.hpp">
+			<Option target="Editor Map Windows" />
+		</Unit>
+		<Unit filename="src/engine.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/data.cpp">
+		<Unit filename="src/engine.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/game/alarm.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/game/alarm.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/game/component.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/game/component.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/game/data.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Editor Map Windows" />
 		</Unit>
-		<Unit filename="game/data.hpp">
+		<Unit filename="src/game/data.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Editor Map Windows" />
 		</Unit>
-		<Unit filename="game/entity.cpp">
+		<Unit filename="src/game/entity.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/entity.hpp">
+		<Unit filename="src/game/entity.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/hud.cpp">
+		<Unit filename="src/game/hud.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/hud.hpp">
+		<Unit filename="src/game/hud.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/map.cpp">
+		<Unit filename="src/game/map.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/map.hpp">
+		<Unit filename="src/game/map.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/menu.cpp">
+		<Unit filename="src/game/menu.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/menu.hpp">
+		<Unit filename="src/game/menu.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/thread.cpp">
+		<Unit filename="src/game/thread.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/thread.hpp">
+		<Unit filename="src/game/thread.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/variable.cpp">
+		<Unit filename="src/game/variable.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="game/variable.hpp">
+		<Unit filename="src/game/variable.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="gametext.cpp">
+		<Unit filename="src/main.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="gametext.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="inifile.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="inifile.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="input.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="input.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="lang.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="lang.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="main.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="main_pack_builder.cpp">
-			<Option target="Pack Builder Windows" />
-		</Unit>
-		<Unit filename="managerfont.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managerfont.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managerlang.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managerlang.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managermenu.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managermenu.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managermusic.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managermusic.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managersound.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managersound.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managertexture.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managertexture.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managerthread.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="managerthread.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="map.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="map.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="mapeditor.cpp">
-			<Option target="Editor Map Windows" />
-		</Unit>
-		<Unit filename="mapeditor.hpp">
-			<Option target="Editor Map Windows" />
-		</Unit>
-		<Unit filename="mcrypto.cpp">
+		<Unit filename="src/mlib/mcrypto.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Pack Builder Windows" />
 		</Unit>
-		<Unit filename="mcrypto.hpp">
+		<Unit filename="src/mlib/mcrypto.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Pack Builder Windows" />
 		</Unit>
-		<Unit filename="mdrawable.cpp">
+		<Unit filename="src/mlib/mlib.cpp" />
+		<Unit filename="src/mlib/mlib.hpp" />
+		<Unit filename="src/mlib/mload.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="mdrawable.hpp">
+		<Unit filename="src/mlib/mload.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="menu.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="menu.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="mlib.cpp" />
-		<Unit filename="mlib.hpp" />
-		<Unit filename="mload.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="mload.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="music.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="music.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="network.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="network.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="random.cpp">
+		<Unit filename="src/mlib/mrand.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Pack Builder Windows" />
 		</Unit>
-		<Unit filename="random.hpp">
+		<Unit filename="src/mlib/mrand.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Pack Builder Windows" />
 		</Unit>
-		<Unit filename="resources.rc">
+		<Unit filename="src/plugin/drawable/animatedsprite.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/animatedsprite.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/gametext.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/gametext.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/mdrawable.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/mdrawable.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/richtext.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/drawable/richtext.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/filesystem.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+			<Option target="Pack Builder Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/filesystem.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+			<Option target="Pack Builder Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/inifile.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/inifile.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/lang.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/lang.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/save.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/file/save.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/component.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/component.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/entity.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/entity.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/map.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/map.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/menu.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/game/menu.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerfont.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerfont.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerlang.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerlang.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managermenu.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managermenu.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managermusic.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managermusic.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managersound.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managersound.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managertexture.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managertexture.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerthread.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managerthread.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/alarm.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/alarm.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/input.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/input.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/music.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/music.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/network.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/system/network.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/resources.rc">
 			<Option compilerVar="WINDRES" />
-		</Unit>
-		<Unit filename="richtext.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="richtext.hpp">
+		<Unit filename="src/usermessage.cpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="save.cpp">
+		<Unit filename="src/usermessage.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 		</Unit>
-		<Unit filename="save.hpp">
+		<Unit filename="src/version.h">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
+			<Option target="Editor Map Windows" />
+			<Option target="Editor File Windows" />
 		</Unit>
-		<Unit filename="usermessage.cpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="usermessage.hpp">
-			<Option target="Debug Windows" />
-			<Option target="Release Windows" />
-			<Option target="Test Windows" />
-		</Unit>
-		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -533,7 +542,7 @@
 			<lib_finder disable_auto="1" />
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
-				<Settings autoincrement="1" date_declarations="1" use_define="0" update_manifest="1" do_auto_increment="0" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="version.h" />
+				<Settings autoincrement="1" date_declarations="1" use_define="0" update_manifest="1" do_auto_increment="0" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="src\version.h" />
 				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
 				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
 			</AutoVersioning>
