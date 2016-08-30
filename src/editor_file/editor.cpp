@@ -1,6 +1,6 @@
 #include "editor.hpp"
-#include "mlib.hpp"
-#include "version.h"
+#include "../mlib/mlib.hpp"
+#include "../version.h"
 
 #include <wx/notebook.h>
 

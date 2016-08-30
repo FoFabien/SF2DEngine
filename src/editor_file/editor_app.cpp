@@ -1,6 +1,6 @@
 #include "editor_app.hpp"
 #include "editor.hpp"
-#include "version.h"
+#include "../version.h"
 #include <string>
 
 // Execute our app

@@ -1,9 +1,9 @@
 #include "mapeditor.hpp"
-#include "version.h"
+#include "../version.h"
 #include <SFML/Window/Event.hpp>
-#include "mlib.hpp"
+#include "../mlib/mlib.hpp"
 #include <queue>
-#include "game/data.hpp"
+#include "../game/data.hpp"
 
 #define MAP_VERSION 0x3530764d
 #define HUD_TOOLBAR_H 42

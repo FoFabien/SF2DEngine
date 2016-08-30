@@ -254,7 +254,7 @@ void FileSystem::useCryto(bool enable)
 #else
 #include <cstdlib>
 #include <ctime>
-#include "random.hpp"
+#include "../../mlib/mrand.hpp"
 int32_t FileSystem::buildPack(std::string pack, std::vector<std::string> filelist, bool crypto)
 {
     uint32_t errcount = 0;
@@ -264,8 +264,8 @@ int32_t FileSystem::buildPack(std::string pack, std::vector<std::string> filelis
     if(!f) return -1;
     MCrypto fc(C_WRITE);
     fc.enable(crypto);
-    Random::setSeed(time(NULL));
-    int32_t seed = Random::rand();
+    mrand::setSeed(time(NULL));
+    int32_t seed = mrand::rand();
     fc.setSeed(seed);
 
     uint32_t tmp32;

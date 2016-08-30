@@ -1,5 +1,5 @@
-#include "mlib.hpp"
-#include "filesystem.hpp"
+#include "../mlib/mlib.hpp"
+#include "../plugin/file/filesystem.hpp"
 
 int main(int argc, char* argv[])
 {
