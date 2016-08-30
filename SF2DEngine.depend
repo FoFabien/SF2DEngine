@@ -1,0 +1,471 @@
+# depslib dependency file v1.0
+1472563182 source:d:\documents fabien\documents\code block\project\sf2dengine\src\engine.cpp
+	"engine.hpp"
+	"mlib/mlib.hpp"
+	"usermessage.hpp"
+	"version.h"
+	"mlib/mrand.hpp"
+	<ctime>
+	"game/data.hpp"
+	"game/menu.hpp"
+	"game/variable.hpp"
+	<SFML/System/Mutex.hpp>
+
+1472562361 d:\documents fabien\documents\code block\project\sf2dengine\src\engine.hpp
+	<SFML/System/Clock.hpp>
+	<SFML/Window/Event.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics/RenderWindow.hpp>
+	<SFML/Graphics/RenderTexture.hpp>
+	<SFML/Graphics/View.hpp>
+	<SFML/Graphics/Sprite.hpp>
+	<SFML/Window/Mouse.hpp>
+	<SFML/Window/VideoMode.hpp>
+	<vector>
+	"plugin/file/filesystem.hpp"
+	"plugin/file/inifile.hpp"
+	"plugin/memory/managerfont.hpp"
+	"plugin/memory/managerlang.hpp"
+	"plugin/memory/managermusic.hpp"
+	"plugin/memory/managersound.hpp"
+	"plugin/memory/managertexture.hpp"
+	"plugin/memory/managerthread.hpp"
+	"plugin/memory/managermenu.hpp"
+	"plugin/file/save.hpp"
+	"game/hud.hpp"
+	"plugin/system/input.hpp"
+	"plugin/drawable/richtext.hpp"
+	"plugin/game/map.hpp"
+	"plugin/system/alarm.hpp"
+	"plugin/system/network.hpp"
+
+1466434995 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.hpp
+	<string>
+	<sstream>
+	<fstream>
+	<vector>
+	<map>
+	<stdint.h>
+	<SFML/System/MemoryInputStream.hpp>
+
+1465988202 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\inifile.hpp
+	<map>
+	<stdint.h>
+	<SFML/System/String.hpp>
+
+1472562376 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerfont.hpp
+	<map>
+	<stdint.h>
+	"../file/filesystem.hpp"
+	<SFML/Graphics/Text.hpp>
+	<SFML/System/MemoryInputStream.hpp>
+
+1472562407 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerlang.hpp
+	"../../mlib/mload.hpp"
+	"../file/lang.hpp"
+	<vector>
+	<stdint.h>
+
+1444934367 d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mload.hpp
+	<string>
+	<sstream>
+	<fstream>
+
+1472562415 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\lang.hpp
+	<map>
+	<SFML/Window.hpp>
+	"../../mlib/mload.hpp"
+
+1472562431 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managermusic.hpp
+	"../system/music.hpp"
+	<map>
+
+1472562444 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\music.hpp
+	<stdint.h>
+	<SFML/Audio/Music.hpp>
+	<SFML/System/MemoryInputStream.hpp>
+	"../file/filesystem.hpp"
+
+1463674030 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managersound.hpp
+	<SFML/Audio.hpp>
+	<map>
+	<vector>
+	<stdint.h>
+
+1463750588 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managertexture.hpp
+	<map>
+	<stdint.h>
+	<SFML/Graphics.hpp>
+
+1472562456 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.hpp
+	<SFML/System/Thread.hpp>
+	<vector>
+	<string>
+	<stdint.h>
+	"../../game/thread.hpp"
+
+1472224785 d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.hpp
+
+1472562464 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managermenu.hpp
+	"../game/menu.hpp"
+
+1472562514 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\menu.hpp
+	"../drawable/mdrawable.hpp"
+	"../../game/menu.hpp"
+
+1472562521 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\mdrawable.hpp
+	<SFML/Graphics/Drawable.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<SFML/Graphics/Font.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/String.hpp>
+	<string>
+	<stdint.h>
+	"../../mlib/mload.hpp"
+
+1465915823 d:\documents fabien\documents\code block\project\sf2dengine\src\game\menu.hpp
+	<string>
+	<vector>
+	<stdint.h>
+	<SFML/Graphics/Color.hpp>
+
+1465987323 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\save.hpp
+	<string>
+	<vector>
+	<stdint.h>
+
+1472562539 d:\documents fabien\documents\code block\project\sf2dengine\src\game\hud.hpp
+	"../plugin/drawable/richtext.hpp"
+
+1463588683 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\richtext.hpp
+	<SFML/Graphics/Drawable.hpp>
+	<SFML/Graphics/Color.hpp>
+	<SFML/Graphics/Text.hpp>
+	<SFML/System/String.hpp>
+	<vector>
+	<stdint.h>
+
+1466416186 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\input.hpp
+	<SFML/Window.hpp>
+	<vector>
+	<stdint.h>
+
+1472562575 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\map.hpp
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<SFML/Graphics/VertexArray.hpp>
+	<SFML/Graphics/Drawable.hpp>
+	<SFML/Graphics/Transformable.hpp>
+	<vector>
+	<stdint.h>
+	"../../mlib/mload.hpp"
+	"entity.hpp"
+	"../../game/map.hpp"
+
+1472562568 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\entity.hpp
+	<vector>
+	<stdint.h>
+	<SFML/System/Vector2.hpp>
+	"map.hpp"
+	"component.hpp"
+	"../../game/entity.hpp"
+
+1472562563 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\component.hpp
+	"../drawable/mdrawable.hpp"
+	"../../game/component.hpp"
+	"entity.hpp"
+
+1467647671 d:\documents fabien\documents\code block\project\sf2dengine\src\game\component.hpp
+
+1467647671 d:\documents fabien\documents\code block\project\sf2dengine\src\game\entity.hpp
+
+1467647671 d:\documents fabien\documents\code block\project\sf2dengine\src\game\map.hpp
+
+1472562583 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\alarm.hpp
+	<SFML/System/Clock.hpp>
+	<stdint.h>
+	"../../game/alarm.hpp"
+
+1467647671 d:\documents fabien\documents\code block\project\sf2dengine\src\game\alarm.hpp
+
+1472224664 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.hpp
+	<SFML/Network.hpp>
+	<SFML/System/Mutex.hpp>
+
+1464272615 d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mlib.hpp
+	<string>
+	<sstream>
+	<fstream>
+	<vector>
+	<stdint.h>
+	<SFML/System/String.hpp>
+
+1447857608 d:\documents fabien\documents\code block\project\sf2dengine\src\usermessage.hpp
+	<string>
+
+1472564271 d:\documents fabien\documents\code block\project\sf2dengine\src\version.h
+
+1472561768 d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mrand.hpp
+	<stdint.h>
+
+1464272295 d:\documents fabien\documents\code block\project\sf2dengine\src\game\data.hpp
+	<string>
+	<stdint.h>
+
+1464272343 d:\documents fabien\documents\code block\project\sf2dengine\src\game\variable.hpp
+	<string>
+	<vector>
+	<stdint.h>
+
+1472562629 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\alarm.cpp
+	"../plugin/system/alarm.hpp"
+	"../mlib/mlib.hpp"
+
+1472562649 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\component.cpp
+	"../plugin/game/entity.hpp"
+	"../engine.hpp"
+	"variable.hpp"
+	"../mlib/mlib.hpp"
+
+1467647705 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\data.cpp
+	<string>
+	<stdint.h>
+	"data.hpp"
+
+1472562663 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\entity.cpp
+	"../plugin/game/entity.hpp"
+
+1472560013 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\hud.cpp
+	"hud.hpp"
+	"../engine.hpp"
+	"variable.hpp"
+
+1472562678 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\map.cpp
+	"../plugin/game/map.hpp"
+	"../engine.hpp"
+
+1472562720 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\menu.cpp
+	"menu.hpp"
+	"../plugin/game/menu.hpp"
+	"../plugin/system/input.hpp"
+	"../engine.hpp"
+	"../mlib/mlib.hpp"
+	"data.hpp"
+	"variable.hpp"
+
+1472562739 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.cpp
+	"../plugin/memory/managerthread.hpp"
+	"../engine.hpp"
+	"../mlib/mlib.hpp"
+	<SFML/System/Mutex.hpp>
+
+1467647731 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\variable.cpp
+	"variable.hpp"
+
+1472562867 source:d:\documents fabien\documents\code block\project\sf2dengine\src\main.cpp
+	"mlib/mlib.hpp"
+	<csignal>
+	<SFML/System/Mutex.hpp>
+	"engine.hpp"
+
+1458571614 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mcrypto.cpp
+	"mcrypto.hpp"
+
+1463588867 d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mcrypto.hpp
+	<fstream>
+	<stdint.h>
+
+1466434995 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mlib.cpp
+	"mlib.hpp"
+	<iomanip>
+	<time.h>
+	<cstdio>
+	<iostream>
+	<windows.h>
+	<shlobj.h>
+	<sys/types.h>
+	<sys/stat.h>
+
+1472562777 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mload.cpp
+	"mload.hpp"
+	"mlib.hpp"
+	"../engine.hpp"
+
+1472561783 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mrand.cpp
+	"mrand.hpp"
+
+1472562800 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\animatedsprite.cpp
+	"animatedsprite.hpp"
+	"../../engine.hpp"
+
+1472562792 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\animatedsprite.hpp
+	<SFML/System/Vector2.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/Graphics/Sprite.hpp>
+	"../../mlib/mload.hpp"
+	<stdint.h>
+
+1472562879 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\gametext.cpp
+	"gametext.hpp"
+	"../../engine.hpp"
+	"../../mlib/mlib.hpp"
+
+1463669777 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\gametext.hpp
+	"richtext.hpp"
+	<SFML/System/Time.hpp>
+	"mdrawable.hpp"
+
+1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\mdrawable.cpp
+	"mdrawable.hpp"
+	"../../engine.hpp"
+	"richtext.hpp"
+	<SFML/Graphics/RectangleShape.hpp>
+	<SFML/Graphics/CircleShape.hpp>
+	"animatedsprite.hpp"
+	"gametext.hpp"
+
+1466434995 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\drawable\richtext.cpp
+	"richtext.hpp"
+	<SFML/Graphics.hpp>
+	<sstream>
+
+1472564709 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.cpp
+	"filesystem.hpp"
+	"../../mlib/mcrypto.hpp"
+	"../../mlib/mlib.hpp"
+	<cstdlib>
+	<ctime>
+	"../../mlib/mrand.hpp"
+
+1472562910 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\inifile.cpp
+	"inifile.hpp"
+	"../../mlib/mlib.hpp"
+
+1472562920 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\lang.cpp
+	"lang.hpp"
+	"../../mlib/mlib.hpp"
+
+1472562970 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\save.cpp
+	"save.hpp"
+	"../../mlib/mlib.hpp"
+	"../../mlib/mcrypto.hpp"
+	"../../mlib/mrand.hpp"
+	"../../game/variable.hpp"
+
+1472562978 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\component.cpp
+	"entity.hpp"
+	<utility>
+	"../../mlib/mlib.hpp"
+
+1472562987 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\entity.cpp
+	"entity.hpp"
+	"../../game/data.hpp"
+
+1472562993 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\map.cpp
+	"map.hpp"
+	"../../engine.hpp"
+	"../../mlib/mlib.hpp"
+
+1472563000 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\game\menu.cpp
+	"menu.hpp"
+	"../../engine.hpp"
+	"../../mlib/mlib.hpp"
+	<map>
+
+1472562828 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerfont.cpp
+	"managerfont.hpp"
+	"../../engine.hpp"
+
+1472563012 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerlang.cpp
+	"managerlang.hpp"
+	"../../mlib/mlib.hpp"
+
+1472562828 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managermenu.cpp
+	"managermenu.hpp"
+	"../../engine.hpp"
+
+1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managermusic.cpp
+	"managermusic.hpp"
+	"../../engine.hpp"
+
+1472563024 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managersound.cpp
+	"managersound.hpp"
+	"../../engine.hpp"
+	"../../mlib/mlib.hpp"
+
+1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managertexture.cpp
+	"managertexture.hpp"
+	"../../engine.hpp"
+
+1472563036 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.cpp
+	"managerthread.hpp"
+	"../../mlib/mlib.hpp"
+	<SFML/System/Mutex.hpp>
+
+1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\alarm.cpp
+	"alarm.hpp"
+	"../../engine.hpp"
+
+1472563046 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\input.cpp
+	"input.hpp"
+	"../../mlib/mlib.hpp"
+	"../../engine.hpp"
+
+1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\music.cpp
+	"music.hpp"
+	"../../engine.hpp"
+
+1472563059 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.cpp
+	"network.hpp"
+	"../../mlib/mlib.hpp"
+
+1447085446 source:d:\documents fabien\documents\code block\project\sf2dengine\src\resources.rc
+	"wx/msw/wx.rc"
+
+1457471336 source:d:\documents fabien\documents\code block\project\sf2dengine\src\usermessage.cpp
+	"usermessage.hpp"
+	<windows.h>
+	"mlib.hpp"
+
+1472564337 source:d:\documents fabien\documents\code block\project\sf2dengine\src\editor_map\mapeditor.cpp
+	"mapeditor.hpp"
+	"../version.h"
+	<SFML/Window/Event.hpp>
+	"../mlib/mlib.hpp"
+	<queue>
+	"../game/data.hpp"
+	<windows.h>
+
+1463589283 d:\documents fabien\documents\code block\project\sf2dengine\src\editor_map\mapeditor.hpp
+	<SFML/System/Mutex.hpp>
+	<SFML/System/Clock.hpp>
+	<SFML/Window/Event.hpp>
+	<SFML/System/Clock.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Window/Mouse.hpp>
+	<SFML/Window/VideoMode.hpp>
+	<map>
+	<stdint.h>
+
+1472564547 source:d:\documents fabien\documents\code block\project\sf2dengine\src\editor_file\editor.cpp
+	"editor.hpp"
+	"../mlib/mlib.hpp"
+	"../version.h"
+	<wx/notebook.h>
+
+1453212160 d:\documents fabien\documents\code block\project\sf2dengine\src\editor_file\editor.hpp
+	<wx/wx.h>
+	<wx/grid.h>
+	<wx/statline.h>
+	<wx/checkbox.h>
+	<wx/grid.h>
+	<wx/listbox.h>
+	<wx/dirdlg.h>
+	<wx/dir.h>
+
+1472564656 source:d:\documents fabien\documents\code block\project\sf2dengine\src\builder_datapack\main.cpp
+	"../mlib/mlib.hpp"
+	"../plugin/file/filesystem.hpp"
+
