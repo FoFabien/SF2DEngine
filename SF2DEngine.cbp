@@ -18,6 +18,7 @@
 					<Add option="-DWINDOWS_VERSION" />
 					<Add option="-DDEBUG_BUILD" />
 					<Add directory="game/" />
+					<Add directory="src/plugin/memory" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -42,6 +43,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-DWINDOWS_VERSION" />
 					<Add directory="game/" />
+					<Add directory="src/plugin/memory" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -60,6 +62,7 @@
 					<Add option="-DWINDOWS_VERSION" />
 					<Add option="-DDEBUG_BUILD" />
 					<Add directory="game/" />
+					<Add directory="src/plugin/memory" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -178,6 +181,11 @@
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />
 			<Option target="Editor Map Windows" />
+		</Unit>
+		<Unit filename="src/game/engine.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
 		</Unit>
 		<Unit filename="src/game/entity.cpp">
 			<Option target="Debug Windows" />
@@ -438,6 +446,16 @@
 			<Option target="Test Windows" />
 		</Unit>
 		<Unit filename="src/plugin/memory/managermusic.hpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managershader.cpp">
+			<Option target="Debug Windows" />
+			<Option target="Release Windows" />
+			<Option target="Test Windows" />
+		</Unit>
+		<Unit filename="src/plugin/memory/managershader.hpp">
 			<Option target="Debug Windows" />
 			<Option target="Release Windows" />
 			<Option target="Test Windows" />

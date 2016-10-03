@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1472563182 source:d:\documents fabien\documents\code block\project\sf2dengine\src\engine.cpp
+1475490513 source:d:\documents fabien\documents\code block\project\sf2dengine\src\engine.cpp
 	"engine.hpp"
 	"mlib/mlib.hpp"
 	"usermessage.hpp"
@@ -9,9 +9,8 @@
 	"game/data.hpp"
 	"game/menu.hpp"
 	"game/variable.hpp"
-	<SFML/System/Mutex.hpp>
 
-1472562361 d:\documents fabien\documents\code block\project\sf2dengine\src\engine.hpp
+1475488639 d:\documents fabien\documents\code block\project\sf2dengine\src\engine.hpp
 	<SFML/System/Clock.hpp>
 	<SFML/Window/Event.hpp>
 	<SFML/System/Vector2.hpp>
@@ -21,12 +20,14 @@
 	<SFML/Graphics/Sprite.hpp>
 	<SFML/Window/Mouse.hpp>
 	<SFML/Window/VideoMode.hpp>
+	<SFML/System/Mutex.hpp>
 	<vector>
 	"plugin/file/filesystem.hpp"
 	"plugin/file/inifile.hpp"
 	"plugin/memory/managerfont.hpp"
 	"plugin/memory/managerlang.hpp"
 	"plugin/memory/managermusic.hpp"
+	"plugin/memory/managershader.hpp"
 	"plugin/memory/managersound.hpp"
 	"plugin/memory/managertexture.hpp"
 	"plugin/memory/managerthread.hpp"
@@ -39,13 +40,14 @@
 	"plugin/system/alarm.hpp"
 	"plugin/system/network.hpp"
 
-1466434995 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.hpp
+1475486862 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.hpp
 	<string>
 	<sstream>
 	<fstream>
 	<vector>
 	<map>
 	<stdint.h>
+	<SFML/System/Mutex.hpp>
 	<SFML/System/MemoryInputStream.hpp>
 
 1465988202 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\inifile.hpp
@@ -97,14 +99,15 @@
 	<stdint.h>
 	<SFML/Graphics.hpp>
 
-1472562456 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.hpp
+1475489334 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.hpp
+	<SFML/System/Mutex.hpp>
 	<SFML/System/Thread.hpp>
 	<vector>
 	<string>
 	<stdint.h>
 	"../../game/thread.hpp"
 
-1472224785 d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.hpp
+1475489848 d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.hpp
 
 1472562464 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managermenu.hpp
 	"../game/menu.hpp"
@@ -189,7 +192,7 @@
 
 1467647671 d:\documents fabien\documents\code block\project\sf2dengine\src\game\alarm.hpp
 
-1472224664 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.hpp
+1475490356 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.hpp
 	<SFML/Network.hpp>
 	<SFML/System/Mutex.hpp>
 
@@ -241,7 +244,7 @@
 	"../engine.hpp"
 	"variable.hpp"
 
-1472562678 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\map.cpp
+1475069534 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\map.cpp
 	"../plugin/game/map.hpp"
 	"../engine.hpp"
 
@@ -254,19 +257,18 @@
 	"data.hpp"
 	"variable.hpp"
 
-1472562739 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.cpp
+1475490264 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\thread.cpp
 	"../plugin/memory/managerthread.hpp"
 	"../engine.hpp"
 	"../mlib/mlib.hpp"
-	<SFML/System/Mutex.hpp>
+	<SFML/System/Sleep.hpp>
 
 1467647731 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\variable.cpp
 	"variable.hpp"
 
-1472562867 source:d:\documents fabien\documents\code block\project\sf2dengine\src\main.cpp
+1475485738 source:d:\documents fabien\documents\code block\project\sf2dengine\src\main.cpp
 	"mlib/mlib.hpp"
 	<csignal>
-	<SFML/System/Mutex.hpp>
 	"engine.hpp"
 
 1458571614 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mcrypto.cpp
@@ -276,7 +278,7 @@
 	<fstream>
 	<stdint.h>
 
-1466434995 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mlib.cpp
+1475060820 source:d:\documents fabien\documents\code block\project\sf2dengine\src\mlib\mlib.cpp
 	"mlib.hpp"
 	<iomanip>
 	<time.h>
@@ -330,10 +332,11 @@
 	<SFML/Graphics.hpp>
 	<sstream>
 
-1472564709 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.cpp
+1475486976 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\file\filesystem.cpp
 	"filesystem.hpp"
 	"../../mlib/mcrypto.hpp"
 	"../../mlib/mlib.hpp"
+	<SFML/System/Lock.hpp>
 	<cstdlib>
 	<ctime>
 	"../../mlib/mrand.hpp"
@@ -398,10 +401,10 @@
 	"managertexture.hpp"
 	"../../engine.hpp"
 
-1472563036 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.cpp
+1475489815 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managerthread.cpp
 	"managerthread.hpp"
 	"../../mlib/mlib.hpp"
-	<SFML/System/Mutex.hpp>
+	<SFML/System/Lock.hpp>
 
 1472562829 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\alarm.cpp
 	"alarm.hpp"
@@ -416,7 +419,7 @@
 	"music.hpp"
 	"../../engine.hpp"
 
-1472563059 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.cpp
+1475490356 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\system\network.cpp
 	"network.hpp"
 	"../../mlib/mlib.hpp"
 
@@ -468,4 +471,17 @@
 1472564656 source:d:\documents fabien\documents\code block\project\sf2dengine\src\builder_datapack\main.cpp
 	"../mlib/mlib.hpp"
 	"../plugin/file/filesystem.hpp"
+
+1475067776 source:d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managershader.cpp
+	"managershader.hpp"
+	"../../engine.hpp"
+
+1475067213 d:\documents fabien\documents\code block\project\sf2dengine\src\plugin\memory\managershader.hpp
+	<string>
+	"SFML/Graphics/Shader.hpp"
+
+1475488584 source:d:\documents fabien\documents\code block\project\sf2dengine\src\game\engine.cpp
+	"../engine.hpp"
+	"../mlib/mlib.hpp"
+	"variable.hpp"
 
