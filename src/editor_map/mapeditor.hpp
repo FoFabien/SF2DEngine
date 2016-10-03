@@ -1,7 +1,6 @@
 #ifndef MAPEDITOR_HPP
 #define MAPEDITOR_HPP
 
-#include <SFML/System/Mutex.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Clock.hpp>

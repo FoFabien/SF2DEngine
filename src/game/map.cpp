@@ -1,5 +1,4 @@
 #include "../plugin/game/map.hpp"
-
 #ifdef _USE_MAP_
 #include "../engine.hpp"
 

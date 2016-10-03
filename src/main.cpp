@@ -1,9 +1,6 @@
 #include "mlib/mlib.hpp"
 #include <csignal>
 
-#include <SFML/System/Mutex.hpp>
-sf::Mutex mutex;
-
 #include "engine.hpp"
 Engine engine;
 

@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 #ifndef PACK_BUILDER_BUILD
+#include <SFML/System/Mutex.hpp>
 #include <SFML/System/MemoryInputStream.hpp>
 
 struct DataContainer
@@ -55,6 +56,8 @@ class FileSystem
         bool mod;
         bool crypto;
         std::string mod_folder;
+
+        sf::Mutex mutex;
 };
 #else // used for the standalone "data pack builder"
 namespace FileSystem

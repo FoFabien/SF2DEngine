@@ -266,7 +266,7 @@ std::vector<std::string> mlib::split(const std::string &s, std::vector<char> del
 bool mlib::isNumber(std::string s)
 {
     if(s.empty()) return false;
-    if(s.size() > 1 && s[0] == '-') s.erase(0);
+    if(s.size() > 1 && s[0] == '-') s.erase(s.begin());
     std::string::const_iterator it = s.begin();
     while (it != s.end() && std::isdigit(*it)) ++it;
     return (!s.empty() && it == s.end());
@@ -275,7 +275,7 @@ bool mlib::isNumber(std::string s)
 bool mlib::isFloat(std::string s)
 {
     if(s.empty()) return false;
-    if(s.size() > 1 && s[0] == '-') s.erase(0);
+    if(s.size() > 1 && s[0] == '-') s.erase(s.begin());
     if(s[0] < '0' || s[0] > '9') return false;
     std::string::const_iterator it = s.begin();
     bool dot = false;
@@ -322,7 +322,7 @@ std::vector<std::wstring> mlib::wsplit(const std::wstring &s, std::vector<wchar_
 bool mlib::isNumber(std::wstring s)
 {
     if(s.empty()) return false;
-    if(s.size() > 1 && s[0] == '-') s.erase(0);
+    if(s.size() > 1 && s[0] == '-') s.erase(s.begin());
     std::wstring::const_iterator it = s.begin();
     while (it != s.end() && std::iswdigit(*it)) ++it;
     return (!s.empty() && it == s.end());
@@ -331,7 +331,7 @@ bool mlib::isNumber(std::wstring s)
 bool mlib::isFloat(std::wstring s)
 {
     if(s.empty()) return false;
-    if(s.size() > 1 && s[0] == '-') s.erase(0);
+    if(s.size() > 1 && s[0] == '-') s.erase(s.begin());
     if(s[0] < '0' || s[0] > '9') return false;
     std::wstring::const_iterator it = s.begin();
     bool dot = false;
@@ -421,7 +421,7 @@ std::istream& mlib::getline(std::istream& stream, std::string& str)
     std::getline(stream, str);
     if(str.length() > 0 && str[str.length()-1] == '\r')
     {
-        str.erase(str.length()-1);
+        str.erase(str.begin()+str.length()-1);
     }
     return stream;
 }
@@ -431,7 +431,7 @@ std::wistream& mlib::wgetline(std::wistream& stream, std::wstring& str)
     std::getline(stream, str);
     if(str.length() > 0 && str[str.length()-1] == '\r')
     {
-        str.erase(str.length()-1);
+        str.erase(str.begin()+str.length()-1);
     }
     return stream;
 }

@@ -10,6 +10,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/System/Mutex.hpp>
 #include <vector>
 
 #include "plugin/file/filesystem.hpp"
@@ -17,6 +18,7 @@
 #include "plugin/memory/managerfont.hpp"
 #include "plugin/memory/managerlang.hpp"
 #include "plugin/memory/managermusic.hpp"
+#include "plugin/memory/managershader.hpp"
 #include "plugin/memory/managersound.hpp"
 #include "plugin/memory/managertexture.hpp"
 #include "plugin/memory/managerthread.hpp"
@@ -54,12 +56,20 @@ class Engine
         sf::Time getElapsedFrameTime() const;                       // elapsed time since the last render
         sf::Time getElapsedTickTime() const;                        // elapsed time since the last tick
         // others
-        void draw(const sf::Drawable *ptr);                         // to draw something on the screen
+        void draw(const sf::Drawable *ptr, const sf::RenderStates &states=sf::RenderStates::Default);                         // to draw something on the screen
         void newAlarm(int32_t id, sf::Time t);                      // to set an alarm
         void setMap(const std::string &name, int32_t type = 0);     // change the map. type is used for user defined type of map
+        void mutexLock();                                           // lock engine's mutex
+        void mutexUnlock();                                         // and unlock
+        // -----------------------------------------------
+        // Map
+        // -----------------------------------------------
         #ifdef _USE_MAP_
         Map* mapspace;                                              // pointer to store a loading map
         #endif
+        bool change_map;                                            // if true, next_map will be loaded
+        std::string next_map;                                       // name of the map to load
+        int32_t map_type;                                           // 0 is default, others are for custom map
         // -----------------------------------------------
         // Video
         // -----------------------------------------------
@@ -122,6 +132,9 @@ class Engine
         #ifdef _USE_TEXTURE_
         ManagerTexture textures;                                    // load textures from memory/disk and memory management
         #endif
+        #ifdef _USE_SHADER_
+        ManagerShader shaders;                                    // load textures from memory/disk and memory management
+        #endif
         ManagerThread threads;                                      // run task on another thread
         #ifdef _USE_MENU_
         ManagerMenu menus;                                          // load and manage menus on screen
@@ -157,6 +170,15 @@ class Engine
         inline void load_ini();                                     // key binding loading
         inline void refresh_ini();                                  // writing new data
         // -----------------------------------------------
+        // Custom
+        // -----------------------------------------------
+        // those functions are in game/engine.cpp
+        void post_constructor();
+        void pre_init();
+        void post_init();
+        void pre_update();
+        void post_update();
+        // -----------------------------------------------
         // Variables
         // -----------------------------------------------
         // Engine
@@ -176,6 +198,7 @@ class Engine
         #ifdef _USE_ALARM_
         std::vector<Alarm*> alarms;                                 // list of alarms running
         #endif
+        sf::Mutex mutex;
         // -----------------------------------------------
         // Video
         // -----------------------------------------------
@@ -206,8 +229,6 @@ class Engine
         #ifdef _USE_MAP_
         Map *map;                                                   // current map loaded
         #endif
-        bool change_map;                                            // if true, next_map will be loaded
-        std::string next_map;                                       // name of the map to load
         // -----------------------------------------------
         // Debug
         // -----------------------------------------------

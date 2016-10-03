@@ -1,8 +1,6 @@
 #include "managerthread.hpp"
 #include "../../mlib/mlib.hpp"
-
-#include <SFML/System/Mutex.hpp>
-extern sf::Mutex mutex;
+#include <SFML/System/Lock.hpp>
 
 ManagerThread::ManagerThread()
 {
@@ -21,7 +19,7 @@ void ManagerThread::clear()
         mutex.lock();
         if(i->running)
         {
-            Out = "Thread: Waiting for thread (0x" + mlib::int2hex((int32_t)i->ptr) + ")...\n";
+            Out = "Thread: Waiting for thread (ID:" + mlib::int2str(i->id) + ")...\n";
             mutex.unlock();
             i->ptr->wait();
         }
@@ -68,4 +66,12 @@ void ManagerThread::garbageCollection()
         }
         mutex.unlock();
     }
+}
+
+bool ManagerThread::sameIdExist(const ThreadContainer* ptr)
+{
+    sf::Lock lock(mutex);
+    for(ThreadContainer* i : threads)
+        if(i->id == ptr->id && i != ptr) return true;
+    return false;
 }

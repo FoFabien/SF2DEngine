@@ -6,6 +6,7 @@
 #define FS_VERSION 0x32303076
 
 #ifndef PACK_BUILDER_BUILD
+#include <SFML/System/Lock.hpp>
 FileSystem::FileSystem()
 {
     mod = false;
@@ -15,17 +16,17 @@ FileSystem::FileSystem()
 
 FileSystem::~FileSystem()
 {
-    for (auto& i : files)
-    {
-        delete [] (char*)(i.second.data);
-    }
+    clear();
 }
 
 bool FileSystem::create(const std::string& pack, bool modEnabled, const std::string& modFolder)
 {
+    mutex.lock();
     mod = modEnabled;
     mod_folder = modFolder;
+    mutex.unlock();
     clear();
+    sf::Lock lock(mutex);
     Out = "FileSystem: Creating filesystem...\n";
     Out = "FileSystem: Base pack: \"" + pack + "\"\n";
     Out = "FileSystem: Modding state: " + mlib::int2str(mod) + "\n";
@@ -114,6 +115,7 @@ bool FileSystem::readHeader(const std::string& pack)
 
 void FileSystem::clear()
 {
+    mutex.lock();
     for(auto &i : files)
     {
         delete [] (char*)(i.second.data);
@@ -121,10 +123,12 @@ void FileSystem::clear()
     }
     files.clear();
     packs.clear();
+    mutex.unlock();
 }
 
 bool FileSystem::loadFile(const std::string &filename)
 {
+    sf::Lock lock(mutex);
     if(files.find(filename) == files.end()) return false;
     if(files[filename].data != nullptr) return true;
     std::ifstream f(files[filename].pack->c_str(), std::ios::in | std::ios::binary);
@@ -154,12 +158,14 @@ bool FileSystem::exist(const std::string &filename)
 
 void FileSystem::unloadFile(const std::string &filename)
 {
+    mutex.lock();
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end() && it->second.nUse <= 0)
     {
         delete [] (char*)(it->second.data);
         files.erase(it);
     }
+    mutex.unlock();
 }
 
 size_t FileSystem::getFileCount()
@@ -199,52 +205,62 @@ std::string FileSystem::getModFolder() const
 
 sf::MemoryInputStream FileSystem::getStream(const std::string &filename)
 {
+    mutex.lock();
     sf::MemoryInputStream stream;
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end() && it->second.data)
     {
         stream.open(it->second.data, it->second.size);
     }
+    mutex.unlock();
     return stream;
 }
 
 DataContainer FileSystem::getData(const std::string &filename)
 {
+    mutex.lock();
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end() && it->second.data)
     {
         return it->second;
     }
+    mutex.unlock();
     return DataContainer();
 }
 
 std::stringstream& FileSystem::getStringStream(const std::string &filename, std::stringstream &ss)
 {
+    mutex.lock();
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end() && it->second.data)
     {
         ss.write((char*)(it->second.data), it->second.size);
         ss.seekp(ss.beg);
     }
+    mutex.unlock();
     return ss;
 }
 
 void FileSystem::lockFile(const std::string &filename)
 {
+    mutex.lock();
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end())
     {
         ++it->second.nUse;
     }
+    mutex.unlock();
 }
 
 void FileSystem::unlockFile(const std::string &filename)
 {
+    mutex.lock();
     std::map<std::string, DataContainer>::iterator it = files.find(filename);
     if(it != files.end())
     {
         --it->second.nUse;
     }
+    mutex.unlock();
 }
 
 void FileSystem::useCryto(bool enable)

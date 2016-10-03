@@ -429,4 +429,5 @@ sf::Packet NetworkServer::getPacketFromClient(uint8_t id)
         }
     return p;
 }
+
 #endif

@@ -25,9 +25,6 @@
 #include "game/menu.hpp"
 #include "game/variable.hpp"
 
-#include <SFML/System/Mutex.hpp>
-extern sf::Mutex mutex;
-
 Engine::Engine()
 {
     mrand::setSeed(time(NULL));
@@ -58,72 +55,77 @@ Engine::Engine()
     #ifdef _USE_ALARM_
     Out = "Alarm Module\t\t\t: Ok\n";
     #else
-    Out = "Alarm Module\t\t\t: Not compiled\n";
+    Out = "Alarm Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_ENTITY_
     Out = "Entity Module\t\t\t: Ok\n";
     #else
-    Out = "Entity Module\t\t\t: Not compiled\n";
+    Out = "Entity Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_FILESYSTEM_
     Out = "Filesystem Module\t\t: Ok\n";
     #else
-    Out = "Filesystem Module\t\t: Not compiled\n";
+    Out = "Filesystem Module\t\t: Not included\n";
     #endif
     #ifdef _USE_FONT_
     Out = "Font Module\t\t\t: Ok\n";
     #else
-    Out = "Font Module\t\t\t: Not compiled\n";
+    Out = "Font Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_INIFILE_
     Out = "ini File Module\t\t\t: Ok\n";
     #else
-    Out = "ini File Module\t\t\t: Not compiled\n";
+    Out = "ini File Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_INPUT_
     Out = "Input Module\t\t\t: Ok\n";
     #else
-    Out = "Input Module\t\t\t: Not compiled\n";
+    Out = "Input Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_LANG_
     Out = "Language Module\t\t\t: Ok\n";
     #else
-    Out = "Language Module\t\t\t: Not compiled\n";
+    Out = "Language Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_MAP_
     Out = "Map Module\t\t\t: Ok\n";
     #else
-    Out = "Map Module\t\t\t: Not compiled\n";
+    Out = "Map Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_MENU_
     Out = "Menu Module\t\t\t: Ok\n";
     #else
-    Out = "Menu Module\t\t\t: Not compiled\n";
+    Out = "Menu Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_MUSIC_
     Out = "Music Module\t\t\t: Ok\n";
     #else
-    Out = "Music Module\t\t\t: Not compiled\n";
-    #endif
-    #ifdef _USE_SAVE_
-    Out = "Save Module\t\t\t: Ok\n";
-    #else
-    Out = "Save Module\t\t\t: Not compiled\n";
-    #endif
-    #ifdef _USE_SOUND_
-    Out = "Sound Module\t\t\t: Ok\n";
-    #else
-    Out = "Sound Module\t\t\t: Not compiled\n";
-    #endif
-    #ifdef _USE_TEXTURE_
-    Out = "Texture Module\t\t\t: Ok\n";
-    #else
-    Out = "Texture Module\t\t\t: Not compiled\n";
+    Out = "Music Module\t\t\t: Not included\n";
     #endif
     #ifdef _USE_NETWORK_
     Out = "Network Module\t\t\t: Ok\n";
     #else
-    Out = "Network Module\t\t\t: Not compiled\n";
+    Out = "Network Module\t\t\t: Not included\n";
+    #endif
+    #ifdef _USE_SAVE_
+    Out = "Save Module\t\t\t: Ok\n";
+    #else
+    Out = "Save Module\t\t\t: Not included\n";
+    #endif
+    #ifdef _USE_SHADER_
+    Out = "Shader Module\t\t\t: Ok\n";
+    #else
+    Out = "Shader Module\t\t\t: Not included\n";
+    #endif
+    #ifdef _USE_SOUND_
+    Out = "Sound Module\t\t\t: Ok\n";
+    #else
+    Out = "Sound Module\t\t\t: Not included\n";
+    #endif
+    #ifdef _USE_TEXTURE_
+    Out = "Texture Module\t\t\t: Ok\n";
+    #else
+    Out = "Texture Module\t\t\t: Not included\n";
     #endif
     Out.useTimestamp(true);
 
@@ -161,6 +163,7 @@ Engine::Engine()
     mod_folder = "";
     #endif
 
+    // loading filesystem
     threads.run(2, mod_enabled, mod_folder);
 
     // graphic
@@ -234,6 +237,8 @@ Engine::Engine()
     game_loop_maxupdates = 30;
     game_loop_updaterate = (1000.f / (float)(game_loop_maxupdates));
     Out = "Engine: Max updates=" + mlib::int2str(game_loop_maxupdates) + " / Update rate=" + mlib::float2str(game_loop_updaterate) + "ms\n";
+
+    post_constructor();
 }
 
 Engine::~Engine()
@@ -259,7 +264,6 @@ Engine::~Engine()
 int32_t Engine::run()
 {
     init();
-    setMap("mapStartup");
     while(state == RUNNING)
     {
         update();
@@ -282,6 +286,7 @@ int32_t Engine::run()
 
 void Engine::init()
 {
+    pre_init();
     Out = "Engine: Waiting for filesystem...\n";
     mutex.lock();
     Out = "Engine: Filesystem thread finished. Checking...\n";
@@ -351,9 +356,6 @@ void Engine::init()
     else Out = "Engine: Default font \"" + std::string(ENGINE_DEFAULT_FONT) + "\" loaded\n";
     #endif
 
-    // init save & global variable
-    initDungeonData();
-
     initMenuData();
     Menu::initMenuScript();
     RichText::initializeColors();
@@ -418,7 +420,9 @@ void Engine::init()
     anUpdateClock.restart();
     anUpdateNext = anUpdateClock.getElapsedTime().asMilliseconds();
     state = RUNNING;
+    threads.run(1);
     Out = "Engine ready\n";
+    post_init();
 }
 
 void Engine::stop()
@@ -472,6 +476,9 @@ void Engine::term()
     #ifdef _USE_TEXTURE_
     textures.clear();
     #endif
+    #ifdef _USE_SHADER_
+    shaders.clear();
+    #endif
 
     // update ini file
     #ifdef _USE_INIFILE_
@@ -506,10 +513,10 @@ sf::Time Engine::getElapsedTickTime() const
     return elapsedTickTime;
 }
 
-void Engine::draw(const sf::Drawable *ptr)
+void Engine::draw(const sf::Drawable *ptr, const sf::RenderStates &states)
 {
     if(!ptr) return;
-    rTex->draw(*ptr);
+    rTex->draw(*ptr, states);
 }
 
 void Engine::newAlarm(int32_t id, sf::Time t)
@@ -524,7 +531,17 @@ void Engine::setMap(const std::string &name, int32_t type)
     if(change_map) return;
     change_map = true;
     next_map = name;
-    threads.run(1, type, name);
+    map_type = type;
+}
+
+void Engine::mutexLock()
+{
+    mutex.lock();
+}
+
+void Engine::mutexUnlock()
+{
+    mutex.unlock();
 }
 
 void Engine::refreshVideoMode()
@@ -819,6 +836,8 @@ void Engine::update()
             }
         }
 
+        pre_update();
+
         #ifdef _USE_INPUT_
         if(focus) input.update(&win);
         else input.reset();
@@ -872,16 +891,19 @@ void Engine::update()
                 }
                 else if(!mapspace->loadFailed())
                 {
-                    change_map = false;
                     delete map;
                     map = mapspace;
                     mapspace = nullptr;
+                    change_map = false;
                     Out = "Engine: Current map modified\n";
                 }
             }
             mutex.unlock();
         }
         #endif
+
+        post_update();
+
         // garbage collection
         garbageCollection();
 
