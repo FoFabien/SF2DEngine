@@ -196,7 +196,7 @@ void MDrawable::setColor(const sf::Color &c)
         case ANIMATION: ((AnimatedSprite*)data)->setColor(c); return;
         case RECTANGLE: ((sf::RectangleShape*)data)->setFillColor(c); return;
         case CIRCLE: ((sf::CircleShape*)data)->setFillColor(c); return;
-        case STDTEXT: ((sf::Text*)data)->setColor(c); return;
+        case STDTEXT: ((sf::Text*)data)->setFillColor(c); return;
         case GAMETEXT: return;
     }
 }

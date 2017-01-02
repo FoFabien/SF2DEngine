@@ -5,7 +5,7 @@
 
 void ManagerThread::run(int32_t id, ThreadArguments args)
 {
-    mutex.lock();
+    sf::Lock lock(mutex);
     ThreadContainer* tc = new ThreadContainer();
     args.itself = tc;
     args.mutex = &mutex;
@@ -17,10 +17,7 @@ void ManagerThread::run(int32_t id, ThreadArguments args)
         case 2: tc->ptr = new sf::Thread(t_createfilesystem, args); break;
         case 3: tc->ptr = new sf::Thread(t_runServer, args); break;
         case 4: tc->ptr = new sf::Thread(t_runClient, args); break;
-        default:
-            delete tc;
-            mutex.unlock();
-            return;
+        default: delete tc; return;
     }
 
     tc->running = true;
@@ -28,7 +25,6 @@ void ManagerThread::run(int32_t id, ThreadArguments args)
     threads.push_back(tc);
 
     Out = "Thread (ID:" + mlib::int2str(id) + ") launched\n";
-    mutex.unlock();
 }
 
 void t_testrun(ThreadArguments args)

@@ -24,7 +24,7 @@ class Map: public MLoad, public sf::Drawable, public sf::Transformable
 {
     public:
         Map();
-        ~Map();
+        virtual ~Map();
         void setLoadedFlag();
         bool isLoaded();
         bool loadFailed();

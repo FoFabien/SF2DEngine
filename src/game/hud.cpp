@@ -27,7 +27,7 @@ void HUD::update()
 {
     #ifdef DEBUG_BUILD
     sf::IntRect rect = engine.getHUDBounds();
-    debug_text.setPosition(rect.width-50, 5);
+    debug_text.setPosition(rect.width-100, 5);
     #endif
 }
 

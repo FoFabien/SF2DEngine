@@ -239,7 +239,7 @@ void GameText::setString(const sf::String& source, const bool& updateSource)
                     if(chunks[i]->text.getSize() != 0)
                     {
                         t = (sf::Text*)dra->getDrawable();
-                        t->setColor(chunks[i]->color);
+                        t->setFillColor(chunks[i]->color);
                         t->setString(chunks[i]->text);
                         t->setStyle(chunks[i]->style);
                         t->setCharacterSize(characterSize);

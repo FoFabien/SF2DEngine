@@ -14,12 +14,18 @@
 
 // menu data
 #include "../plugin/system/input.hpp"
+#ifdef _USE_MENU_
 std::vector<MenuData> menu_database;
+#define MENU_DATABASE_COUNT 14
+#endif
 
 void initMenuData()
 {
     #ifdef _USE_MENU_
     #ifdef _USE_INPUT_
+    menu_database.clear();
+    menu_database.shrink_to_fit();
+    menu_database.reserve(MENU_DATABASE_COUNT);
     // menu 0
     menu_database.push_back(MenuData(true, MenuDataVisual(SP_CIRCLE, "", 0, -20, 2, 7, 10, sf::Color::White, "", "")));
     menu_database.back().visuals.push_back(MenuDataVisual(SP_RECTANGLE, "", 5, -51, -51, 122, 102, sf::Color(0, 0, 0, 150), "", ""));

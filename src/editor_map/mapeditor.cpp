@@ -7,6 +7,7 @@
 
 #define MAP_VERSION 0x3530764d
 #define HUD_TOOLBAR_H 42
+#define ENGINE_SFML_VERSION "SFML v2.4.1"
 
 #define TILE_COUNT 18
 
@@ -68,7 +69,7 @@ MapEditor::MapEditor()
     Out.setOutput(true, true);
     Out = "[DEBUG ENABLED]\n";
     Out = std::string("EG Engine Light v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + "\n";
-    Out = "Map Editor Build - SFML v2.3.2\n";
+    Out = std::string("Map Editor Build - ") + ENGINE_SFML_VERSION + "\n";
 
     // graphic
     sizeLimit = sf::Texture::getMaximumSize();
@@ -727,7 +728,7 @@ std::string MapEditor::getPath(std::string name)
 
 void MapEditor::removePath(std::string name)
 {
-    std::map<std::string, std::string>::iterator it = trans_tab.find(name);
+    std::map<std::string, std::string>::const_iterator it = trans_tab.find(name);
     if(it != trans_tab.end()) trans_tab.erase(it);
 }
 
@@ -740,7 +741,7 @@ bool MapEditor::saveTable(std::string file)
         return false;
     }
     char cstop = 0;
-    for(std::map<std::string, std::string>::iterator it = trans_tab.begin(); it != trans_tab.end(); ++it)
+    for(std::map<std::string, std::string>::const_iterator it = trans_tab.begin(); it != trans_tab.end(); ++it)
     {
         if(it != trans_tab.begin()) f.write("\n", 1);
         for(size_t i = 0; i < it->first.size(); ++i)

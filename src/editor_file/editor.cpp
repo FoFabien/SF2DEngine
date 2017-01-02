@@ -9,6 +9,7 @@
 
 #define E_V1 0x31307645
 #define ENTITY_VERSION 0x32307645
+#define ENGINE_SFML_VERSION "SFML v2.4.1"
 
 BEGIN_EVENT_TABLE(Editor, wxFrame)
     EVT_BUTTON(ID_BTN_AS_NEW, Editor::as_new)
@@ -34,7 +35,7 @@ Editor::Editor(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefault
     Out.setFile("log_file_editor.txt", true);
     Out.setOutput(false, true);
     Out = std::string("EG Engine v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + "\n";
-    Out = "File Editor Build - SFML v2.3.2\n";
+    Out = std::string("File Editor Build - ") + ENGINE_SFML_VERSION + "\n";
 
     wxBoxSizer *sizer_vertical = new wxBoxSizer(wxVERTICAL);
     SetSizer(sizer_vertical);

@@ -7,7 +7,7 @@
 
 ManagerSound::ManagerSound()
 {
-
+    sounds.reserve(MAX_SOUND_COUNT);
 }
 
 ManagerSound::~ManagerSound()

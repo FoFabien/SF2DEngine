@@ -203,7 +203,7 @@ void RichText::setString(const sf::String& source)
         if(chunks[i]->text.getSize() != 0)
         {
             t = new sf::Text();
-            t->setColor(chunks[i]->color);
+            t->setFillColor(chunks[i]->color);
             t->setString(chunks[i]->text);
             t->setStyle(chunks[i]->style);
             t->setCharacterSize(characterSize);

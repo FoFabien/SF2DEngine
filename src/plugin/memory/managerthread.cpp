@@ -4,7 +4,7 @@
 
 ManagerThread::ManagerThread()
 {
-    //ctor
+    threads.reserve(10);
 }
 
 ManagerThread::~ManagerThread()

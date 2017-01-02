@@ -50,11 +50,12 @@ struct MenuDataActor
 	std::string selec_sound; // sound when pressing confirm
 };
 
+#define DEFT_MENU_VSIZE 5
 struct MenuData // raw data used to create a menu
 {
-    MenuData() {};
-    MenuData(const bool &pause, const MenuDataVisual &cursor): pause(pause) { cursors.push_back(cursor); };
-    MenuData(const bool &pause, const std::vector<MenuDataVisual> &cursors): pause(pause), cursors(cursors) {};
+    MenuData() {visuals.reserve(DEFT_MENU_VSIZE); choices.reserve(DEFT_MENU_VSIZE);};
+    MenuData(const bool &pause, const MenuDataVisual &cursor): pause(pause) { cursors.push_back(cursor); visuals.reserve(DEFT_MENU_VSIZE); choices.reserve(DEFT_MENU_VSIZE);};
+    MenuData(const bool &pause, const std::vector<MenuDataVisual> &cursors): pause(pause), cursors(cursors) {visuals.reserve(DEFT_MENU_VSIZE); choices.reserve(DEFT_MENU_VSIZE);};
     bool pause;
 	std::vector<MenuDataVisual> cursors; // cursors (can have multiple ones)
 	std::vector<MenuDataVisual> visuals; // various graphical elements

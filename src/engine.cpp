@@ -15,7 +15,7 @@
 #define ABS(x) ((x)<0 ? -(x) : (x))
 #define SGN(x) ((x)<0 ? -1 : 1)
 
-#define ENGINE_SFML_VERSION "SFML v2.3.2"
+#define ENGINE_SFML_VERSION "SFML v2.4.1"
 #define ENGINE_SIZE_LIMIT 1024
 #define ENGINE_DEFAULT_FONT "font.ttf"
 #define ENGINE_UNBIND_KEY 999
@@ -310,6 +310,9 @@ void Engine::init()
         UserMessage::msg(L"Texture's size limit is too low.");
         exit(0);
     }
+
+    // memory
+    alarms.reserve(30);
 
     // language
     #ifdef _USE_LANG_
@@ -924,12 +927,8 @@ void Engine::update()
 
 void Engine::render()
 {
-    mutex.lock();
-    if(state == STOPPING)
-    {
-        mutex.unlock();
-        return;
-    }
+    sf::Lock lock(mutex);
+    if(state == STOPPING) return;
 
     // clear
     tex[0].clear(sf::Color::Black);
@@ -970,7 +969,6 @@ void Engine::render()
     #endif
 
     elapsedTime.restart();
-    mutex.unlock();
 }
 
 void Engine::resize()
