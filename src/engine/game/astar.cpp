@@ -93,7 +93,7 @@ bool Astar::findStepByStep()
     if(!openSet.empty())
     {
         int32_t minScore = -1;
-        aNode* current = NULL;
+        aNode* current = nullptr;
         for(auto &i : openSet)
         {
             if(minScore == -1 || gScore[i] < minScore)
@@ -102,7 +102,7 @@ bool Astar::findStepByStep()
                 minScore = gScore[i];
             }
         }
-        if(current == NULL)
+        if(current == nullptr)
         {
             gState = 0;
             return false;
@@ -200,7 +200,7 @@ bool Astar::partialPath()
 {
     if(gState != 0) return false;
     int32_t min = -1;
-    aNode* best = NULL;
+    aNode* best = nullptr;
     for(auto &i : gScore)
     {
         if(i.first != gStart)

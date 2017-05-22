@@ -1,9 +1,11 @@
-#ifndef GAMETEXT_HPP
-#define GAMETEXT_HPP
+#ifndef _GAMETEXT_HPP_
+#define _GAMETEXT_HPP_
 
 #include "richtext.hpp"
 #include <SFML/System/Time.hpp>
 #include "mdrawable.hpp"
+
+// this class is for my game engine
 
 class GameText: public RichText
 {
@@ -13,6 +15,7 @@ class GameText: public RichText
         ~GameText();
 
         void setString(const sf::String& source, const bool& updateSource = true); /// updateSource must be true to modify the source string
+        void build();
         void clear(); /// clear the string data. don't clear the animation data
 
         // animation
@@ -35,4 +38,4 @@ class GameText: public RichText
         std::vector<MDrawable*> drawables;
 };
 
-#endif // GAMETEXT_HPP
+#endif // _GAMETEXT_HPP_

@@ -4,54 +4,54 @@
 
 static std::map<sf::String, sf::Color> colors;
 
+// same as sf::Text styles
+// define them locally to redefine them for a child class for example
 #define Regular     0
 #define Bold        1
 #define Italic      2
 #define Underlined  4
 
-namespace RT
+// TextChunk functions
+TextChunk::TextChunk()
 {
-    struct Chunk
-    {
-        sf::String text;
-        int32_t style;
-        sf::Color color;
-        bool endsInNewline;
-    };
+    style = Regular;
+    color = sf::Color::White;
+    endsInNewline = false;
+}
 
-    void newChunk(std::vector<Chunk*>& chunks, Chunk*& currentChunk, Chunk* lastChunk)
-    {
-        chunks.push_back(new Chunk());
-        currentChunk = chunks.back();
-        currentChunk->style = Regular;
-        currentChunk->color = sf::Color::White;
-        currentChunk->endsInNewline = false;
+void TextChunk::add(std::vector<TextChunk*>& chunks, TextChunk*& current, TextChunk* last)
+{
+    chunks.push_back(new TextChunk());
+    current = chunks.back();
 
-        if(chunks.size() > 2)
-        {
-            currentChunk->style = lastChunk->style;
-            currentChunk->color = lastChunk->color;
-        }
-    }
-
-    void processFormatting(Chunk* lastChunk, Chunk*& currentChunk, int32_t style)
+    if(chunks.size() > 2)
     {
-        if((lastChunk->style & style) >= 0) currentChunk->style ^= style;
-        else currentChunk->style |= style;
+        current->style = last->style;
+        current->color = last->color;
     }
 }
 
+void TextChunk::format(TextChunk*& current, TextChunk* last, int32_t style)
+{
+    if((last->style & style) >= 0) current->style ^= style;
+    else current->style |= style;
+}
+
+
+// RichText functions
 RichText::RichText()
 {
-    characterSize = 30;
-    font = NULL;
+    nlratio = 1.5;
+    csize = 20; // default parameters
+    font = nullptr;
 }
 
-RichText::RichText(const sf::String& source, const sf::Font& font, uint32_t characterSize)
+RichText::RichText(const sf::String& source, const sf::Font& font, uint32_t csize)
 {
-    this->characterSize = characterSize;
+    nlratio = 1.5;
+    this->csize = csize;
     this->font = &font;
-    setString(source);
+    setString(source); // update the displayed string
 }
 
 RichText::~RichText()
@@ -72,84 +72,62 @@ sf::String RichText::getSource() const
 void RichText::setString(const sf::String& source)
 {
     this->source = source;
-    if(!font) return;
+    if(!font) return; // nothing to display, return
 
     clear();
     if(source.getSize() == 0) return;
 
-    std::vector<RT::Chunk*> chunks;
-    chunks.push_back(new RT::Chunk());
+    chunks.push_back(new TextChunk());
 
-    RT::Chunk* currentChunk = chunks[0];
-    currentChunk->style = Regular;
-    currentChunk->color = sf::Color::White;
-    currentChunk->endsInNewline = false;
-    RT::Chunk* lastChunk = NULL;
+    TextChunk* current = chunks[0];
+    TextChunk* last = nullptr;
     bool escaped = false;
 
+    // create the chunks
     for(uint32_t i = 0; i < source.getSize(); ++i)
     {
-        lastChunk = currentChunk;
+        last = current;
+        if(escaped)
+        {
+            current->text += source[i];
+            escaped = false;
+            continue;
+        }
         switch(source[i])
         {
             case '~': //	italics
             {
-                if(escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Italic);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Italic);
+                current->color = last->color;
                 break;
             }
             case '*': //	bold
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Bold);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Bold);
+                current->color = last->color;
                 break;
             }
             case '_': 	//	underline
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Underlined);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Underlined);
+                current->color = last->color;
                 break;
             }
             case '#':	//	color
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-
                 int32_t length = 0;
                 int32_t start = i + 1;
 
                 //	seek forward until the next whitespace
                 while(!isspace(source[++i])) ++length;
 
-                newChunk(chunks, currentChunk, lastChunk);
+                TextChunk::add(chunks, current, last);
                 bool isValid;
                 sf::Color c = getColor(source.toWideString().substr(start, length), isValid);
-                if(isValid) currentChunk->color = c;
+                if(isValid) current->color = c;
                 break;
 
             }
@@ -157,7 +135,7 @@ void RichText::setString(const sf::String& source)
             {
                 if(escaped)
                 {
-                    currentChunk->text += source[i];
+                    current->text += source[i];
                     escaped = false;
                     break;
                 }
@@ -177,26 +155,40 @@ void RichText::setString(const sf::String& source)
                             break;
                     }
                 }
-                if (!escaped) currentChunk->text += source[i];
+                if (!escaped) current->text += source[i];
                 break;
             }
             case '\n':	// make a new chunk in the case of a newline
             {
-                currentChunk->endsInNewline = true;
-                newChunk(chunks, currentChunk, lastChunk);
+                current->endsInNewline = true;
+                TextChunk::add(chunks, current, last);
                 break;
             }
             default:
             {
                 escaped = false;
-                currentChunk->text += source[i];
+                current->text += source[i]; // append the character
                 break;
             }
         }
     }
+    build();
+}
 
-    sf::Text* t = NULL;
+void RichText::build()
+{
+    float boundY = csize*nlratio;
+    sf::Text* t = nullptr;
     sf::Vector2f partPos(0, 0);
+
+    // still forced to clear here
+    for(size_t i = 0; i < parts.size(); ++i)
+        if(parts[i] != nullptr) delete parts[i];
+    parts.clear();
+    bounds.left = 0;
+    bounds.top = 0;
+    bounds.width = 0;
+    bounds.height = 0;
 
     for(size_t i = 0; i < chunks.size(); ++i)
     {
@@ -206,40 +198,41 @@ void RichText::setString(const sf::String& source)
             t->setFillColor(chunks[i]->color);
             t->setString(chunks[i]->text);
             t->setStyle(chunks[i]->style);
-            t->setCharacterSize(characterSize);
+            t->setCharacterSize(csize);
 
             if(font) t->setFont(*font);
 
             t->setPosition(partPos);
         }
 
+        if(t) partPos.x += t->getLocalBounds().width;
+        if(partPos.x >= bounds.width) bounds.width = partPos.x;
         if(chunks[i]->endsInNewline)
         {
-            partPos.y += characterSize*1.5;
+            partPos.y += boundY;
             partPos.x = 0;
-            bounds.height += characterSize*1.5;
+            bounds.height += boundY;
         }
-        else
+        else if(i == chunks.size()-1)
         {
-            if(t) partPos.x += t->getLocalBounds().width;
-            if(partPos.x >= bounds.width) bounds.width = partPos.x;
-            if(i == chunks.size()-1) bounds.height += characterSize*1.5;
+            bounds.height += boundY;
         }
 
         if(t)
         {
             parts.push_back((sf::Drawable*)t);
-            t = NULL;
+            t = nullptr;
         }
     }
-
-    for(size_t i = 0; i < chunks.size(); ++i) delete chunks[i];
 }
 
 void RichText::clear()
 {
+    for(size_t i = 0; i < chunks.size(); ++i)
+        delete chunks[i];
+    chunks.clear();
     for(size_t i = 0; i < parts.size(); ++i)
-        if(parts[i] != NULL) delete parts[i];
+        if(parts[i] != nullptr) delete parts[i];
     parts.clear();
     bounds.left = 0;
     bounds.top = 0;
@@ -249,13 +242,24 @@ void RichText::clear()
 
 uint32_t RichText::getCharacterSize() const
 {
-    return characterSize;
+    return csize;
 }
 
 void RichText::setCharacterSize(uint32_t size)
 {
-    characterSize = std::max(size, 1u);
-    setString(source);
+    csize = (size < 1) ? 1 : size;
+    build();
+}
+
+float RichText::getNewLineSize() const
+{
+    return nlratio;
+}
+
+void RichText::setNewLineSize(float size)
+{
+    nlratio = (size <= 0) ? 1.5 : size;
+    build();
 }
 
 const sf::Font* RichText::getFont() const
@@ -266,13 +270,13 @@ const sf::Font* RichText::getFont() const
 void RichText::setFont(const sf::Font& font)
 {
     this->font = &font;
-    setString(source);
+    build();
 }
 
 void RichText::setFont(const sf::Font* font)
 {
     this->font = font;
-    setString(source);
+    build();
 }
 
 sf::FloatRect RichText::getLocalBounds() const
@@ -321,13 +325,23 @@ sf::Color RichText::getColor(const sf::String& source, bool& isValid)
     std::map<sf::String, sf::Color>::const_iterator result = colors.find(source);
     if(result == colors.end())
     {
+        // basic hexadecimal check
+        for(size_t i = 0; i < source.getSize(); ++i)
+        {
+            if((source[i] < 'a' || source [i] > 'f') && (source[i] < 'A' || source[i] > 'F') && (source[i] < '0' || source[i] > '9'))
+            {
+                isValid = false;
+                return sf::Color::White;
+            }
+        }
+
         uint32_t hex = 0x0;
-        if (!(std::istringstream(source) >> std::hex >> hex))
+        if(!(std::istringstream(source) >> std::hex >> hex))
         {
             //	Error parsing; return default
             isValid = false;
             return sf::Color::White;
-        };
+        }
         isValid = true;
         return getColor(hex);
     }

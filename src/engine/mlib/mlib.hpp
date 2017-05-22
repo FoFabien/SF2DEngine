@@ -2,8 +2,8 @@
 #define MLIB_HPP
 
 // macro
-#define cdelete(x) {delete x; x = NULL;}
-#define adelete(x) {delete [] x; x = NULL;}
+#define cdelete(x) {delete x; x = nullptr;}
+#define adelete(x) {delete [] x; x = nullptr;}
 
 // declaration
 #include <string>

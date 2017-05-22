@@ -8,42 +8,11 @@
 #define Underlined  4
 #define Image       8
 
-namespace GT
-{
-    struct Chunk
-    {
-        sf::String text;
-        int32_t style;
-        sf::Color color;
-        bool endsInNewline;
-    };
-
-    void newChunk(std::vector<Chunk*>& chunks, Chunk*& currentChunk, Chunk* lastChunk)
-    {
-        chunks.push_back(new Chunk());
-        currentChunk = chunks.back();
-        currentChunk->style = Regular;
-        currentChunk->color = sf::Color::White;
-        currentChunk->endsInNewline = false;
-
-        if(chunks.size() > 2)
-        {
-            currentChunk->style = lastChunk->style;
-            currentChunk->color = lastChunk->color;
-        }
-    }
-
-    void processFormatting(Chunk* lastChunk, Chunk*& currentChunk, int32_t style)
-    {
-        if((lastChunk->style & style) >= 0) currentChunk->style ^= style;
-        else currentChunk->style |= style;
-    }
-}
-
 GameText::GameText()
 {
-    characterSize = 30;
-    font = NULL;
+    nlratio = 1.5;
+    csize = 30;
+    font = nullptr;
 
     a_frameTime = sf::seconds(1);
     a_elapsedTime = sf::Time::Zero;
@@ -53,9 +22,10 @@ GameText::GameText()
     complete_sound = "";
 }
 
-GameText::GameText(const sf::String& source, const sf::Font& font, uint32_t characterSize)
+GameText::GameText(const sf::String& source, const sf::Font& font, uint32_t csize)
 {
-    this->characterSize = characterSize;
+    nlratio = 1.5;
+    this->csize = csize;
     this->font = &font;
     setString(source);
 
@@ -74,106 +44,82 @@ GameText::~GameText()
 
 void GameText::setString(const sf::String& source, const bool& updateSource)
 {
-    if(updateSource)
+    if(updateSource) // reset everything if it's a new source
     {
         this->source = source;
         currentPos = 0;
         a_elapsedTime = sf::Time::Zero;
     }
-
-    if(!font) return;
+    if(!font) return; // a font must be loaded, to avoid undefined behaviors
 
     clear();
-	if(source.getSize() == 0 || updateSource) return;
-    std::vector<GT::Chunk*> chunks;
-    chunks.push_back(new GT::Chunk());
+    if(source.getSize() == 0) return;
 
-    GT::Chunk* currentChunk = chunks[0];
-    currentChunk->style = Regular;
-    currentChunk->color = sf::Color::White;
-    currentChunk->endsInNewline = false;
-    GT::Chunk* lastChunk = NULL;
+    chunks.push_back(new TextChunk());
+
+    TextChunk* current = chunks[0];
+    TextChunk* last = nullptr;
     bool escaped = false;
 
+    // create the chunks
     for(uint32_t i = 0; i < source.getSize(); ++i)
     {
-        lastChunk = currentChunk;
-
+        last = current;
+        if(escaped)
+        {
+            current->text += source[i];
+            escaped = false;
+            continue;
+        }
         switch(source[i])
         {
             case '~': //	italics
             {
-                if(escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Italic);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Italic);
+                current->color = last->color;
                 break;
             }
             case '*': //	bold
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Bold);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Bold);
+                current->color = last->color;
                 break;
             }
             case '_': 	//	underline
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-                newChunk(chunks, currentChunk, lastChunk);
-                processFormatting(lastChunk, currentChunk, Underlined);
-                currentChunk->color = lastChunk->color;
+                TextChunk::add(chunks, current, last);
+                TextChunk::format(current, last, Underlined);
+                current->color = last->color;
                 break;
             }
             case '#':	//	color
             {
-                if (escaped)
-                {
-                    currentChunk->text += source[i];
-                    escaped = false;
-                    break;
-                }
-
                 int32_t length = 0;
                 int32_t start = i + 1;
 
                 //	seek forward until the next whitespace
                 while(!isspace(source[++i])) ++length;
 
-                newChunk(chunks, currentChunk, lastChunk);
+                TextChunk::add(chunks, current, last);
                 bool isValid;
                 sf::String substr = source.toWideString().substr(start, length);
                 sf::Color c = getColor(substr, isValid);
-                if(isValid) currentChunk->color = c;
+                if(isValid) current->color = c;
                 else
                 {
-                    currentChunk->style = Image;
-                    currentChunk->text = substr.toAnsiString();
-                    newChunk(chunks, currentChunk, lastChunk);
+                    current->style = Image;
+                    current->text = substr.toAnsiString();
+                    TextChunk::add(chunks, current, last);
                 }
                 break;
-
             }
             case '\\':	//	escape sequence for escaping formatting characters
             {
                 if(escaped)
                 {
-                    currentChunk->text += source[i];
+                    current->text += source[i];
                     escaped = false;
                     break;
                 }
@@ -193,95 +139,113 @@ void GameText::setString(const sf::String& source, const bool& updateSource)
                             break;
                     }
                 }
-                if (!escaped) currentChunk->text += source[i];
+                if (!escaped) current->text += source[i];
                 break;
             }
             case '\n':	// make a new chunk in the case of a newline
             {
-                currentChunk->endsInNewline = true;
-                newChunk(chunks, currentChunk, lastChunk);
+                current->endsInNewline = true;
+                TextChunk::add(chunks, current, last);
                 break;
             }
             default:
             {
                 escaped = false;
-                currentChunk->text += source[i];
+                current->text += source[i]; // append the character
                 break;
             }
         }
     }
+    build();
+}
 
-    MDrawable* dra = NULL;
-    sf::Text* t = NULL;
+void GameText::build()
+{
+    float boundY = csize*nlratio;
+    sf::Text* t = nullptr;
     sf::Vector2f partPos(0, 0);
+
+    // still forced to clear here
+    for(size_t i = 0; i < drawables.size(); ++i)
+        if(drawables[i] != nullptr) delete drawables[i];
+    drawables.clear();
+    bounds.left = 0;
+    bounds.top = 0;
+    bounds.width = 0;
+    bounds.height = 0;
+
+    MDrawable* dra = nullptr;
 
     for(size_t i = 0; i < chunks.size(); ++i)
     {
-        switch(chunks[i]->style)
+        if(chunks[i]->text.getSize() != 0)
         {
-            case Image:
+            switch(chunks[i]->style)
             {
-                dra = new MDrawable();
-                if(dra->loadFromMemory(chunks[i]->text))
+                case Image:
                 {
-                    dra->setPosition(partPos);
-                    partPos.x += dra->getLocalBounds().width;
-                    drawables.push_back(dra);
-                    parts.push_back(dra->getDrawable());
+                    dra = new MDrawable();
+                    if(dra->loadFromMemory(chunks[i]->text))
+                    {
+                        dra->setPosition(partPos);
+                        partPos.x += dra->getLocalBounds().width;
+                        drawables.push_back(dra);
+                        parts.push_back(dra->getDrawable());
+                    }
+                    break;
                 }
-                break;
-            }
-            default:
-            {
-                dra = new MDrawable();
-                if(dra->loadFromData(STDTEXT, ""))
+                default:
                 {
-                    if(chunks[i]->text.getSize() != 0)
+                    dra = new MDrawable();
+                    if(dra->loadFromData(STDTEXT, ""))
                     {
-                        t = (sf::Text*)dra->getDrawable();
-                        t->setFillColor(chunks[i]->color);
-                        t->setString(chunks[i]->text);
-                        t->setStyle(chunks[i]->style);
-                        t->setCharacterSize(characterSize);
+                        if(chunks[i]->text.getSize() != 0)
+                        {
+                            t = (sf::Text*)dra->getDrawable();
+                            t->setFillColor(chunks[i]->color);
+                            t->setString(chunks[i]->text);
+                            t->setStyle(chunks[i]->style);
+                            t->setCharacterSize(csize);
 
-                        if(font) t->setFont(*font);
+                            if(font) t->setFont(*font);
 
-                        t->setPosition(partPos);
-                    }
-                    else delete dra;
+                            t->setPosition(partPos);
+                        }
+                        else delete dra;
 
-                    if(chunks[i]->endsInNewline)
-                    {
-                        partPos.y += characterSize*1.5;
-                        partPos.x = 0;
-                        bounds.height += characterSize*1.5;
-                    }
-                    else
-                    {
                         if(t) partPos.x += t->getLocalBounds().width;
                         if(partPos.x >= bounds.width) bounds.width = partPos.x;
-                        if(i == chunks.size()-1) bounds.height += characterSize*1.5;
+                        if(chunks[i]->endsInNewline)
+                        {
+                            partPos.y += boundY;
+                            partPos.x = 0;
+                            bounds.height += boundY;
+                        }
+                        else if(i == chunks.size()-1) bounds.height += boundY;
+
+                        if(t)
+                        {
+                            drawables.push_back(dra);
+                            parts.push_back((sf::Drawable*)t);
+                            t = nullptr;
+                        }
                     }
-                    if(t)
-                    {
-                        drawables.push_back(dra);
-                        parts.push_back((sf::Drawable*)t);
-                        t = NULL;
-                    }
+                    break;
                 }
-                break;
             }
         }
     }
-
-    for(size_t i = 0; i < chunks.size(); ++i) delete chunks[i];
 }
 
 void GameText::clear()
 {
-    for(MDrawable* &i: drawables) if(i) delete i;
+    for(size_t i = 0; i < chunks.size(); ++i)
+        delete chunks[i];
+    chunks.clear();
+    for(MDrawable* &i: drawables)
+        if(i) delete i;
     drawables.clear();
-    parts.clear();
+    parts.clear(); // only clear parts
     bounds.left = 0;
     bounds.top = 0;
     bounds.width = 0;
@@ -306,7 +270,6 @@ void GameText::update()
                 {
                     case '~': case '*': case '_':
                     {
-
                         if(escaped) finished = true;
                         break;
                     }

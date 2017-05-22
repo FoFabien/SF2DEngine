@@ -98,7 +98,7 @@ void Input::init()
 void Input::update(const sf::Window *window)
 {
     static sf::IntRect winsize_buffer;
-    if(mouse_enabled && window != NULL && engine.hasFocus())
+    if(mouse_enabled && window != nullptr && engine.hasFocus())
     {
         mouse_pos = sf::Mouse::getPosition(*window);
         winsize_buffer = engine.getGameBounds();

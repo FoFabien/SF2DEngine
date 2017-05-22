@@ -641,7 +641,7 @@ std::vector<std::wstring> mlib::getFileList(const std::string &directory)
     class stat st;
 
     dir = opendir(fulldir);
-    while ((ent = readdir(dir)) != NULL) {
+    while ((ent = readdir(dir)) != nullptr) {
         const string file_name = ent->d_name;
         const string full_file_name = fulldir + file_name;
 

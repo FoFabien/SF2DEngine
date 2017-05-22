@@ -20,7 +20,7 @@ bool ManagerShader::exist(const std::string &name)
 sf::Shader* ManagerShader::get(const std::string &name)
 {
     std::map<std::string, sf::Shader*>::iterator it = data.find(name);
-    if(it == data.end()) return NULL;
+    if(it == data.end()) return nullptr;
     return it->second;
 }
 
@@ -56,7 +56,7 @@ std::string ManagerShader::loadShaderFile(const std::string &name)
 {
     std::stringstream ss;
     std::ifstream f;
-    std::istream *ptr = NULL;
+    std::istream *ptr = nullptr;
 
     #ifdef _USE_FILESYSTEM_
     if(engine.files.loadFile(name))

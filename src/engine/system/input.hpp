@@ -72,7 +72,7 @@ class Input
         ~Input();
 
         void init();
-        void update(const sf::Window *window = NULL); // window for mouse position
+        void update(const sf::Window *window = nullptr); // window for mouse position
 
         void enableMouse(bool b);
         bool isMouseEnabled();

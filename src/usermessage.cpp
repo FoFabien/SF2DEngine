@@ -5,7 +5,7 @@
 
 void UserMessage::msg(std::wstring str)
 {
-    MessageBox(NULL, (LPCWSTR)str.c_str(), (LPCWSTR)L"Message", MB_OK);
+    MessageBox(nullptr, (LPCWSTR)str.c_str(), (LPCWSTR)L"Message", MB_OK);
 }
 #else
 #include "mlib.hpp"

@@ -273,7 +273,7 @@ int32_t Engine::run()
         if(debug_timer >= sf::microseconds(1000000))
         {
             debug_timer -= sf::microseconds(1000000);
-            dStr[0] = "*FPS(" + mlib::int2str(dVar[0]) + ")\nTick(" + mlib::int2str(dVar[1]) + ")*";
+            dStr[0] = "*FPS: " + mlib::int2str(dVar[0]) + "\nTick: " + mlib::int2str(dVar[1]) + "*";
             dVar[0] = 0;
             dVar[1] = 0;
             hud->updateDebug();
@@ -446,7 +446,7 @@ void Engine::term()
 
     // delete hud
     delete hud;
-    hud = NULL;
+    hud = nullptr;
 
     // update save data
     #ifdef _USE_SAVE_

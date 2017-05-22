@@ -207,7 +207,7 @@ void NetworkServer::listen()
                     clients.back().udp->setBlocking(false);
                     clients.back().udp->bind(sf::Socket::AnyPort);
                 }
-                else clients.back().udp = NULL;
+                else clients.back().udp = nullptr;
                 if(listener.accept(*(clients.back().tcp)) == sf::Socket::Done)
                 {
                     sf::Packet p;
