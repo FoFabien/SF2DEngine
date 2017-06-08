@@ -18,8 +18,8 @@ struct ThreadArguments
 {
     std::vector<int32_t> iArgs;
     std::vector<std::string> sArgs;
-    ThreadContainer* itself;
-    sf::Mutex* mutex;
+    ThreadContainer* itself = nullptr;
+    sf::Mutex* mutex = nullptr;
 };
 
 class ManagerThread
@@ -28,9 +28,9 @@ class ManagerThread
         ManagerThread();
         ~ManagerThread();
         void clear();
-        void run(int32_t id);
-        void run(int32_t id, int32_t i, std::string s);
-        void run(int32_t id, std::vector<int32_t> iArgs, std::vector<std::string> sArgs);
+        void run(int32_t id, sf::Mutex *m = nullptr);
+        void run(int32_t id, int32_t i, std::string s, sf::Mutex *m = nullptr);
+        void run(int32_t id, std::vector<int32_t> iArgs, std::vector<std::string> sArgs, sf::Mutex *m = nullptr);
         void run(int32_t id, ThreadArguments args); // implemented in game_thread.cpp
         void garbageCollection();
         bool sameIdExist(const ThreadContainer* ptr);

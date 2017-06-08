@@ -198,7 +198,8 @@ class Engine
         #ifdef _USE_ALARM_
         std::vector<Alarm*> alarms;                                 // list of alarms running
         #endif
-        sf::Mutex mutex;
+        sf::Mutex mutex;                                            // all purpose mutex
+        sf::Mutex mapMutex;                                         // for map loading
         // -----------------------------------------------
         // Video
         // -----------------------------------------------

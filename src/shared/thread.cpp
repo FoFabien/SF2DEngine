@@ -8,7 +8,8 @@ void ManagerThread::run(int32_t id, ThreadArguments args)
     sf::Lock lock(mutex);
     ThreadContainer* tc = new ThreadContainer();
     args.itself = tc;
-    args.mutex = &mutex;
+    if(!args.mutex)
+        args.mutex = &mutex;
     tc->id = id;
     switch(id)
     {
@@ -43,10 +44,12 @@ void t_testrun(ThreadArguments args)
 void t_loadmap(ThreadArguments args)
 {
     #ifdef _USE_MAP_
+
     if(!engine.threads.sameIdExist(args.itself))
     {
         while(engine.isRunning())
         {
+            args.mutex->lock();
             if(engine.change_map && !engine.mapspace)
             {
                 engine.mutexLock();
@@ -69,8 +72,9 @@ void t_loadmap(ThreadArguments args)
             }
             else
             {
-                sf::sleep(sf::milliseconds(5));
+                sf::sleep(sf::milliseconds(30));
             }
+            args.mutex->unlock();
         }
     }
     #endif
@@ -83,6 +87,7 @@ void t_loadmap(ThreadArguments args)
 void t_createfilesystem(ThreadArguments args)
 {
     #ifdef _USE_FILESYSTEM_
+    args.mutex->lock();
     if(!args.iArgs.empty() && !args.sArgs.empty())
     {
         if(!engine.files.create("data.pack", args.iArgs[0], args.sArgs[0]))
@@ -92,6 +97,7 @@ void t_createfilesystem(ThreadArguments args)
             engine.mutexUnlock();
         }
     }
+    args.mutex->unlock();
     #endif
     args.mutex->lock();
     args.itself->running = false;

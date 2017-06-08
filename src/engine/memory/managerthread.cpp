@@ -30,25 +30,28 @@ void ManagerThread::clear()
     threads.clear();
 }
 
-void ManagerThread::run(int32_t id)
+void ManagerThread::run(int32_t id, sf::Mutex *m)
 {
     ThreadArguments ta;
+    ta.mutex = m;
     run(id, ta);
 }
 
-void ManagerThread::run(int32_t id, int32_t i, std::string s)
+void ManagerThread::run(int32_t id, int32_t i, std::string s, sf::Mutex *m)
 {
     ThreadArguments ta;
     ta.iArgs.push_back(i);
     ta.sArgs.push_back(s);
+    ta.mutex = m;
     run(id, ta);
 }
 
-void ManagerThread::run(int32_t id, std::vector<int32_t> iArgs, std::vector<std::string> sArgs)
+void ManagerThread::run(int32_t id, std::vector<int32_t> iArgs, std::vector<std::string> sArgs, sf::Mutex *m)
 {
     ThreadArguments ta;
     ta.iArgs = iArgs;
     ta.sArgs = sArgs;
+    ta.mutex = m;
     run(id, ta);
 }
 

@@ -164,7 +164,8 @@ Engine::Engine()
     #endif
 
     // loading filesystem
-    threads.run(2, mod_enabled, mod_folder);
+    sf::Mutex initMutex;
+    threads.run(2, mod_enabled, mod_folder, &initMutex);
 
     // graphic
     sizeLimit = sf::Texture::getMaximumSize();
@@ -238,6 +239,8 @@ Engine::Engine()
     game_loop_updaterate = (1000.f / (float)(game_loop_maxupdates));
     Out = "Engine: Max updates=" + mlib::int2str(game_loop_maxupdates) + " / Update rate=" + mlib::float2str(game_loop_updaterate) + "ms\n";
 
+    initMutex.lock();
+    initMutex.unlock();
     post_constructor();
 }
 
@@ -273,9 +276,10 @@ int32_t Engine::run()
         if(debug_timer >= sf::microseconds(1000000))
         {
             debug_timer -= sf::microseconds(1000000);
-            dStr[0] = "*FPS: " + mlib::int2str(dVar[0]) + "\nTick: " + mlib::int2str(dVar[1]) + "*";
+            dStr[0] = "*FPS: " + mlib::int2str(dVar[0]) + "\nTick: " + mlib::int2str(dVar[1]) + "\nDraw: " + mlib::int2str(dVar[2]) + "*";
             dVar[0] = 0;
             dVar[1] = 0;
+            dVar[2] = 0;
             hud->updateDebug();
         }
         #endif
@@ -398,6 +402,7 @@ void Engine::init()
     debug_timer = sf::Time::Zero;
     dVar[0] = 0;
     dVar[1] = 0;
+    dVar[2] = 0;
     hud->updateDebug();
     #endif
 
@@ -423,7 +428,7 @@ void Engine::init()
     anUpdateClock.restart();
     anUpdateNext = anUpdateClock.getElapsedTime().asMilliseconds();
     state = RUNNING;
-    threads.run(1);
+    threads.run(1, &mapMutex);
     Out = "Engine ready\n";
     post_init();
 }
@@ -519,6 +524,9 @@ sf::Time Engine::getElapsedTickTime() const
 void Engine::draw(const sf::Drawable *ptr, const sf::RenderStates &states)
 {
     if(!ptr) return;
+    #ifdef DEBUG_BUILD
+    dVar[2]++;
+    #endif
     rTex->draw(*ptr, states);
 }
 
@@ -878,30 +886,29 @@ void Engine::update()
         #ifdef _USE_MAP_
         if(change_map)
         {
-            mutex.lock();
             if(mapspace)
             {
-                if(!mapspace->isLoaded())
+                if(mapspace->loadFailed())
                 {
-                    if(mapspace->loadFailed())
-                    {
-                        Out = "Can't load the next map: \"" + next_map + "\"\n";
-                        UserMessage::msg(L"Error: failed to load the next map");
-                        state = STOPPING;
-                        cdelete(mapspace);
-                        change_map = false;
-                    }
+                    mapMutex.lock();
+                    Out = "Can't load the next map: \"" + next_map + "\"\n";
+                    UserMessage::msg(L"Error: failed to load the next map");
+                    state = STOPPING;
+                    cdelete(mapspace);
+                    change_map = false;
+                    mapMutex.unlock();
                 }
-                else if(!mapspace->loadFailed())
+                else if(mapspace->isLoaded())
                 {
+                    mapMutex.lock();
                     delete map;
                     map = mapspace;
                     mapspace = nullptr;
                     change_map = false;
                     Out = "Engine: Current map modified\n";
+                    mapMutex.unlock();
                 }
             }
-            mutex.unlock();
         }
         #endif
 
