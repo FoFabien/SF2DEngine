@@ -22,19 +22,19 @@ void IniFile::editStrData(const sf::String &name, const sf::String &data, const 
 void IniFile::editBoolData(const sf::String &name, const bool &data, const sf::String &category)
 {
     if(datas.find(category) == datas.end()) datas[category] = std::map<sf::String, sf::String>();
-    datas[category][name] = mlib::int2str(data);
+    datas[category][name] = std::to_string(data);
 }
 
 void IniFile::editIntData(const sf::String &name, const int32_t &data, const sf::String &category)
 {
     if(datas.find(category) == datas.end()) datas[category] = std::map<sf::String, sf::String>();
-    datas[category][name] = mlib::int2str(data);
+    datas[category][name] = std::to_string(data);
 }
 
 void IniFile::editFloatData(const sf::String &name, const float &data, const sf::String &category)
 {
     if(datas.find(category) == datas.end()) datas[category] = std::map<sf::String, sf::String>();
-    datas[category][name] = mlib::float2str(data);
+    datas[category][name] = std::to_string(data);
 }
 
 sf::String IniFile::getStrData(const sf::String &name, const sf::String &category)

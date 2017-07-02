@@ -29,7 +29,7 @@ bool FileSystem::create(const std::string& pack, bool modEnabled, const std::str
     sf::Lock lock(mutex);
     Out = "FileSystem: Creating filesystem...\n";
     Out = "FileSystem: Base pack: \"" + pack + "\"\n";
-    Out = "FileSystem: Modding state: " + mlib::int2str(mod) + "\n";
+    Out = "FileSystem: Modding state: " + std::to_string(mod) + "\n";
     Out = "FileSystem: Mod folder: \"" + mod_folder + "\"\n";
     if(!readHeader(pack))
     {
@@ -42,7 +42,7 @@ bool FileSystem::create(const std::string& pack, bool modEnabled, const std::str
     {
         std::vector<std::wstring> mod_list = mlib::getFileList(mod_folder);
         size_t ms = mod_list.size();
-        Out = "FileSystem: " + mlib::uint2str(ms) + " mod pack(s) found\n";
+        Out = "FileSystem: " + std::to_string(ms) + " mod pack(s) found\n";
         if(ms > 0)
         {
             for(size_t i = 0; i < ms; ++i)
@@ -53,7 +53,7 @@ bool FileSystem::create(const std::string& pack, bool modEnabled, const std::str
         }
     }
     Out = "FileSystem: Creation success\n";
-    Out = "Filesystem: " + mlib::uint2str(getFileCount()) + " file(s)\n";
+    Out = "Filesystem: " + std::to_string(getFileCount()) + " file(s)\n";
     Out = "Filesystem: " + mlib::ulong2str(getByteSize()) + " byte(s)\n";
     return true;
 }

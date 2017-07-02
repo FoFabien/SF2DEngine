@@ -25,7 +25,7 @@ void ManagerThread::run(int32_t id, ThreadArguments args)
     tc->ptr->launch();
     threads.push_back(tc);
 
-    Out = "Thread (ID:" + mlib::int2str(id) + ") launched\n";
+    Out = "Thread (ID:" + std::to_string(id) + ") launched\n";
 }
 
 void t_testrun(ThreadArguments args)

@@ -84,7 +84,7 @@ char NetworkClient::connect(const sf::IpAddress& remoteIp, const uint16_t &remot
         return 9;
     }
     p >> id;
-    Out = "NetworkClient: Connected with ID #" + mlib::int2str(id) + "\n";
+    Out = "NetworkClient: Connected with ID #" + std::to_string(id) + "\n";
 
     wasConnected = true;
     return 0;
@@ -246,7 +246,7 @@ void NetworkServer::listen()
                     sf::Packet p;
                     p << clients.back().id;
                     if(clients.back().tcp->send(p) == sf::Socket::Done)
-                        Out = "NetworkServer: Client connected from " + clients.back().tcp->getRemoteAddress().toString() + " [ID:" + mlib::int2str(clients.back().id) + "][" + mlib::int2str(clients.size()) + "/" + mlib::int2str(maxClient) + "]\n";
+                        Out = "NetworkServer: Client connected from " + clients.back().tcp->getRemoteAddress().toString() + " [ID:" + std::to_string(clients.back().id) + "][" + std::to_string(clients.size()) + "/" + std::to_string(maxClient) + "]\n";
                     else
                     {
                         delete clients.back().tcp;

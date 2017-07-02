@@ -4,6 +4,7 @@
 #ifdef _USE_INPUT_
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <vector>
 #include <stdint.h>
 
@@ -39,7 +40,7 @@ struct PadBind
     PadBind();
     PadBind(int32_t value);
     bool isButton;
-    int32_t id;
+    uint8_t id;
     sf::Joystick::Axis axis;
     bool axis_positive;
 };
@@ -48,10 +49,13 @@ struct InputKey
 {
     InputKey()
     {
-        state = 4;
+        state = RELEASED;
         k_def = false;
         b_def = false;
         m_def = false;
+        k_id = sf::Keyboard::KeyCount;
+        m_id = sf::Mouse::ButtonCount;
+        updated = false;
     }
     int8_t state;
     // keyboard bind
@@ -63,6 +67,7 @@ struct InputKey
     // mouse bind
     sf::Mouse::Button m_id;
     bool m_def;
+    bool updated;
 };
 
 class Input
@@ -72,7 +77,8 @@ class Input
         ~Input();
 
         void init();
-        void update(const sf::Window *window = nullptr); // window for mouse position
+        bool readEvent(sf::Event &event);
+        void update(const sf::Window *window, bool focus); // window for mouse position
 
         void enableMouse(bool b);
         bool isMouseEnabled();
@@ -119,7 +125,7 @@ class Input
     protected:
         bool mouse_enabled;
         sf::Vector2i mouse_pos;
-        int32_t pad_id;
+        size_t pad_id;
         bool isPadPressed(const PadBind &bbind);
         std::vector<InputKey> keys;
         std::vector<InputKey> save;

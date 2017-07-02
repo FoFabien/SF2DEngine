@@ -7,7 +7,7 @@
 void Alarm::run()
 {
     #ifdef DEBUG_BUILD
-    Out = "Alarm (" + mlib::int2str(id) + ") triggered (" + mlib::long2str(current.asMicroseconds()) + " microsecond(s))\n";
+    Out = "Alarm (" + std::to_string(id) + ") triggered (" + mlib::long2str(current.asMicroseconds()) + " microsecond(s))\n";
     #endif
 
     switch(id) // run custom code for each different alarm ID

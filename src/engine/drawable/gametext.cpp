@@ -117,12 +117,6 @@ void GameText::setString(const sf::String& source, const bool& updateSource)
             }
             case '\\':	//	escape sequence for escaping formatting characters
             {
-                if(escaped)
-                {
-                    current->text += source[i];
-                    escaped = false;
-                    break;
-                }
                 if (i + 1 < source.getSize())
                 {
                     switch (source[i + 1])
@@ -197,13 +191,12 @@ void GameText::build()
                 default:
                 {
                     dra = new MDrawable();
-                    if(dra->loadFromData(STDTEXT, ""))
+                    if(dra->loadFromData(STDTEXT, chunks[i]->text))
                     {
                         if(chunks[i]->text.getSize() != 0)
                         {
                             t = (sf::Text*)dra->getDrawable();
                             t->setFillColor(chunks[i]->color);
-                            t->setString(chunks[i]->text);
                             t->setStyle(chunks[i]->style);
                             t->setCharacterSize(csize);
 
@@ -213,18 +206,9 @@ void GameText::build()
                         }
                         else delete dra;
 
-                        if(t) partPos.x += t->getLocalBounds().width;
-                        if(partPos.x >= bounds.width) bounds.width = partPos.x;
-                        if(chunks[i]->endsInNewline)
-                        {
-                            partPos.y += boundY;
-                            partPos.x = 0;
-                            bounds.height += boundY;
-                        }
-                        else if(i == chunks.size()-1) bounds.height += boundY;
-
                         if(t)
                         {
+                            partPos.x += t->getLocalBounds().width;
                             drawables.push_back(dra);
                             parts.push_back((sf::Drawable*)t);
                             t = nullptr;
@@ -234,6 +218,14 @@ void GameText::build()
                 }
             }
         }
+        if(partPos.x >= bounds.width) bounds.width = partPos.x;
+        if(chunks[i]->endsInNewline)
+        {
+            partPos.y += boundY;
+            partPos.x = 0;
+            bounds.height += boundY;
+        }
+        else if(i == chunks.size()-1) bounds.height += boundY;
     }
 }
 
@@ -256,8 +248,10 @@ void GameText::update()
 {
     if(running)
     {
-        if(currentPos >= (int32_t)source.getSize()-1) return;
+        if(currentPos >= (int32_t)source.getSize()-1)
+            return;
 
+        int32_t lastPos = currentPos;
         a_elapsedTime += engine.getElapsedTickTime();
         while(a_elapsedTime >= a_frameTime && running)
         {
@@ -316,6 +310,7 @@ void GameText::update()
             if(currentPos >= (int32_t)source.getSize()-1)
             {
                 a_elapsedTime = sf::Time::Zero; // end of string, stop
+                running = false;
                 #ifdef _USE_SOUND_
                 engine.sounds.play(complete_sound);
                 #endif
@@ -324,7 +319,7 @@ void GameText::update()
             else engine.sounds.play(letter_sound);
             #endif
 
-            if(a_elapsedTime < a_frameTime) setString(mlib::sfsubstr(source, 0, currentPos+1), false); // update the string if processing is done
+            if(lastPos != currentPos && a_elapsedTime < a_frameTime) setString(mlib::sfsubstr(source, 0, currentPos+1), false); // update the string if processing is done
         }
     }
 }

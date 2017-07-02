@@ -12,8 +12,6 @@
     #include <sys/stat.h>
 #endif
 
-#define F_PRECISION 9
-
 mlib::MLog Out;
 
 bool mlib::getBit(const uint8_t *i, const uint8_t b)
@@ -96,10 +94,10 @@ std::string mlib::ulong2hex(const uint64_t i)
     return o.str();
 }
 
-std::string mlib::float2str(const float i)
+std::string mlib::float2str(const float i, const size_t precision)
 {
     std::stringstream o;
-    o << std::setprecision(F_PRECISION) << i;
+    o << std::setprecision(precision) << i;
     return o.str();
 }
 

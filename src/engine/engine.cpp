@@ -35,7 +35,7 @@ Engine::Engine()
     Out.setFile("log.txt", true);
     Out.setOutput(true, true);
     Out = "[DEBUG ENABLED]\n";
-    Out = std::string("SF2DEngine v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + " (Build:" + mlib::uint2str(AutoVersion::BUILDS_COUNT) + ")\n";
+    Out = std::string("SF2DEngine v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + " (Build:" + std::to_string(AutoVersion::BUILDS_COUNT) + ")\n";
     Out = "Debug Build - " + std::string(ENGINE_SFML_VERSION) + "\n";
     #else
     #ifdef _USE_SAVE_
@@ -45,7 +45,7 @@ Engine::Engine()
     if(!mlib::dirExist(sv)) mlib::makeDir(sv);
     Out.setFile(/*sv + */"log.txt", true);
     Out.setOutput(false, true);
-    Out = std::string("SF2DEngine v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + " (Build:" + mlib::uint2str(AutoVersion::BUILDS_COUNT) + ")\n";
+    Out = std::string("SF2DEngine v") + AutoVersion::STATUS + " " + AutoVersion::FULLVERSION_STRING + " (Build:" + std::to_string(AutoVersion::BUILDS_COUNT) + ")\n";
     Out = "Release Build - " + std::string(ENGINE_SFML_VERSION) + "\n";
     #endif
 
@@ -225,7 +225,6 @@ Engine::Engine()
     input.init();
     load_ini();
     input.pad_auto_connect();
-    input.update();
     #endif
 
     game_pause = false;
@@ -237,7 +236,7 @@ Engine::Engine()
 
     game_loop_maxupdates = 30;
     game_loop_updaterate = (1000.f / (float)(game_loop_maxupdates));
-    Out = "Engine: Max updates=" + mlib::int2str(game_loop_maxupdates) + " / Update rate=" + mlib::float2str(game_loop_updaterate) + "ms\n";
+    Out = "Engine: Max updates=" + std::to_string(game_loop_maxupdates) + " / Update rate=" + std::to_string(game_loop_updaterate) + "ms\n";
 
     initMutex.lock();
     initMutex.unlock();
@@ -259,9 +258,9 @@ Engine::~Engine()
     #endif
 
     Out = "Engine stopped\n";
-    Out = "Running time : " + mlib::uint2str(Out.t() / 3600) + " hours "
-                                + mlib::uint2str(Out.t()  / 60) + " minutes "
-                                + mlib::uint2str(Out.t()  % 60) + " seconds\n";
+    Out = "Running time : " + std::to_string(Out.t() / 3600) + " hours "
+                                + std::to_string(Out.t()  / 60) + " minutes "
+                                + std::to_string(Out.t()  % 60) + " seconds\n";
 }
 
 int32_t Engine::run()
@@ -276,7 +275,8 @@ int32_t Engine::run()
         if(debug_timer >= sf::microseconds(1000000))
         {
             debug_timer -= sf::microseconds(1000000);
-            dStr[0] = "*FPS: " + mlib::int2str(dVar[0]) + "\nTick: " + mlib::int2str(dVar[1]) + "\nDraw: " + mlib::int2str(dVar[2]) + "*";
+            float tmp = (dVar[0] > 0) ? (dVar[2] / (1.f * dVar[0])) : -1.f;
+            dStr[0] = "*FPS: " + std::to_string(dVar[0]) + "\nTick: " + std::to_string(dVar[1]) + "\nDraw: " + std::to_string(dVar[2]) + "\n (" + mlib::float2str(tmp,3) + "/frame)*";
             dVar[0] = 0;
             dVar[1] = 0;
             dVar[2] = 0;
@@ -307,7 +307,7 @@ void Engine::init()
     #endif
     Out = "Engine: Initialization\n";
     // checking graphic card limit
-    Out = "Graphic card size limit: " + mlib::uint2str(sizeLimit) + "\n";
+    Out = "Graphic card size limit: " + std::to_string(sizeLimit) + "\n";
     if(sizeLimit < ENGINE_SIZE_LIMIT)
     {
         Out = "Inferior to the minimum. Exit...\n";
@@ -327,7 +327,7 @@ void Engine::init()
         state = STOPPING;
         return;
     }
-    else Out = "Engine: " + mlib::uint2str(langs.getLangCount()) + " language(s) found\n";
+    else Out = "Engine: " + std::to_string(langs.getLangCount()) + " language(s) found\n";
     #endif
 
     #ifdef _USE_LANG_
@@ -377,7 +377,7 @@ void Engine::init()
     {
         std::vector<SlotState> slotStates = saves.getSlotState();
         for(size_t i = 0; i < slotStates.size(); ++i)
-            Out = "Save slot [" + mlib::int2str(i) + "]: " + mlib::int2str(slotStates[i].used) + " > " + slotStates[i].header + "\n";
+            Out = "Save slot [" + std::to_string(i) + "]: " + std::to_string(slotStates[i].used) + " > " + slotStates[i].header + "\n";
     }
     #endif
     if(!saves.loadSystem())
@@ -570,7 +570,7 @@ void Engine::refreshVideoMode()
     Out = "Refreshing video mode list...\n";
     for(size_t i = 0; i < modes.size(); ++i)
     {
-        Out = "Mode (" + mlib::uint2str(i) + "): " + mlib::uint2str(modes[i].width) + "x" + mlib::uint2str(modes[i].height) + "\n";
+        Out = "Mode (" + std::to_string(i) + "): " + std::to_string(modes[i].width) + "x" + std::to_string(modes[i].height) + "\n";
     }
     #endif
 }
@@ -585,7 +585,7 @@ void Engine::changeVideoMode(int32_t m)
     if(winmode != 1 || m == currentVideoMode || m < 0 || m >= (int32_t)modes.size()) return;
     currentVideoMode = m;
     create(modes[currentVideoMode], wintitle, sf::Style::Fullscreen);
-    Out = "Engine: Fullscreen resolution set to (" + mlib::int2str(modes[currentVideoMode].width) + "x" + mlib::int2str(modes[currentVideoMode].height) + ")\n";
+    Out = "Engine: Fullscreen resolution set to (" + std::to_string(modes[currentVideoMode].width) + "x" + std::to_string(modes[currentVideoMode].height) + ")\n";
     system_resize = true;
 }
 
@@ -620,7 +620,7 @@ void Engine::changeWindowMode(int8_t m)
             winmode = 1;
             if(currentVideoMode < 0 || currentVideoMode >= (int32_t)modes.size()) currentVideoMode = 0;
             create(modes[currentVideoMode], wintitle, sf::Style::Fullscreen);
-            Out = "Engine: Fullscreen mode (" + mlib::int2str(modes[currentVideoMode].width) + "x" + mlib::int2str(modes[currentVideoMode].height) + ")\n";
+            Out = "Engine: Fullscreen mode (" + std::to_string(modes[currentVideoMode].width) + "x" + std::to_string(modes[currentVideoMode].height) + ")\n";
             break;
         }
         case 2:
@@ -649,7 +649,7 @@ void Engine::setFPSLimit(uint32_t fps)
         Out = "FPS limit too low. Setting to 30...\n";
         winfps = 30;
     }
-    else Out = "FPS limit set to " + mlib::uint2str(winfps) + "\n";
+    else Out = "FPS limit set to " + std::to_string(winfps) + "\n";
     win.setFramerateLimit(winfps);
 }
 
@@ -721,7 +721,7 @@ void Engine::saveSetting()
     #ifdef _USE_MUSIC_
     musics.updateVolume();
     #endif
-    Out = "Engine: Master volume set to " + mlib::int2str(masterVolume) + "\n";
+    Out = "Engine: Master volume set to " + std::to_string(masterVolume) + "\n";
 }
 
 void Engine::revertSetting()
@@ -754,103 +754,113 @@ void Engine::update()
     {
         while (win.pollEvent(event))
         {
-            switch(event.type)
+            if(!input.readEvent(event) || settChangingKey)
             {
-                case sf::Event::Closed:
+                switch(event.type)
                 {
-                    state = STOPPING;
-                    mutex.unlock();
-                    return;
-                }
-                case sf::Event::Resized:
-                    Out = "Window resized\n";
-                    resize();
-                    break;
-                case sf::Event::LostFocus:
-                    Out = "Window lost focus\n";
-                    focus = false;
-                    break;
-                case sf::Event::GainedFocus:
-                    Out = "Window gained focus\n";
-                    focus = true;
-                    break;
-                case sf::Event::JoystickConnected:
-                    Out = "Joystick connected\n";
-                    #ifdef _USE_INPUT_
-                    input.pad_connect(event);
-                    #endif
-                    break;
-                case sf::Event::JoystickDisconnected:
-                    Out = "Joystick disconnected\n";
-                    #ifdef _USE_INPUT_
-                    input.pad_disconnect(event);
-                    #endif
-                    break;
-                case sf::Event::KeyPressed: // TEST
-                    if(settChangingKey)
+                    case sf::Event::Closed:
                     {
+                        state = STOPPING;
+                        mutex.unlock();
+                        return;
+                    }
+                    case sf::Event::Resized:
+                        Out = "Window resized\n";
+                        resize();
+                        break;
+                    case sf::Event::LostFocus:
+                        Out = "Window lost focus\n";
+                        focus = false;
+                        break;
+                    case sf::Event::GainedFocus:
+                        Out = "Window gained focus\n";
+                        focus = true;
+                        break;
+                    case sf::Event::JoystickConnected:
+                        Out = "Joystick connected\n";
                         #ifdef _USE_INPUT_
-                        input.bindKey(settKeyCode, event.key.code);
+                        input.pad_connect(event);
+                        input.reset();
                         #endif
-                        settChangingKey = false;
-                        #ifdef _USE_MENU_
-                        menus.delAndAdd(9);
-                        menus.disableInput();
-                        #endif
-                    }
-                    //if(event.key.code == sf::Keyboard::F1) game_pause = !game_pause;
-                    break;
-                case sf::Event::MouseButtonPressed:
-                    if(settChangingKey)
-                    {
+                        break;
+                    case sf::Event::JoystickDisconnected:
+                        Out = "Joystick disconnected\n";
                         #ifdef _USE_INPUT_
-                        input.bindMouse(settKeyCode, event.mouseButton.button);
+                        input.pad_disconnect(event);
+                        input.reset();
                         #endif
-                        settChangingKey = false;
-                        #ifdef _USE_MENU_
-                        menus.delAndAdd(9);
-                        menus.disableInput();
-                        #endif
-                    }
-					break;
-                case sf::Event::JoystickButtonPressed:
-                    #ifdef _USE_INPUT_
-                    if(settChangingKey && event.joystickButton.joystickId == (uint32_t)input.get_pad_id())
-                    {
-                        input.bindPadButton(settKeyCode, JOYSTICK_SETTING_TYPE + event.joystickButton.button);
-                        settChangingKey = false;
-                        #ifdef _USE_MENU_
-                        menus.delAndAdd(9);
-                        menus.disableInput();
-                        #endif
-                    }
-                    #endif
-					break;
-                case sf::Event::JoystickMoved:
-                    #ifdef _USE_INPUT_
-                    if(settChangingKey && event.joystickButton.joystickId == (uint32_t)input.get_pad_id())
-                    {
-                        if(ABS(event.joystickMove.position) > JOYSTICK_DEAD_ZONE)
+                        break;
+                    case sf::Event::KeyPressed: // TEST
+                        if(settChangingKey)
                         {
-                            input.bindPadButton(settKeyCode, (JOYSTICK_SETTING_OFFSET + event.joystickMove.axis) * SGN(event.joystickMove.position));
+                            #ifdef _USE_INPUT_
+                            input.bindKey(settKeyCode, event.key.code);
+                            input.reset();
+                            #endif
                             settChangingKey = false;
                             #ifdef _USE_MENU_
                             menus.delAndAdd(9);
                             menus.disableInput();
                             #endif
                         }
-                    }
-                    #endif
-					break;
-                default:
-                    break;
+                        //if(event.key.code == sf::Keyboard::F1) game_pause = !game_pause;
+                        break;
+                    case sf::Event::MouseButtonPressed:
+                        if(settChangingKey)
+                        {
+                            #ifdef _USE_INPUT_
+                            input.bindMouse(settKeyCode, event.mouseButton.button);
+                            input.reset();
+                            #endif
+                            settChangingKey = false;
+                            #ifdef _USE_MENU_
+                            menus.delAndAdd(9);
+                            menus.disableInput();
+                            #endif
+                        }
+                        break;
+                    case sf::Event::JoystickButtonPressed:
+                        #ifdef _USE_INPUT_
+                        if(settChangingKey && event.joystickButton.joystickId == (uint32_t)input.get_pad_id())
+                        {
+                            input.bindPadButton(settKeyCode, JOYSTICK_SETTING_TYPE + event.joystickButton.button);
+                            input.reset();
+                            settChangingKey = false;
+                            #ifdef _USE_MENU_
+                            menus.delAndAdd(9);
+                            menus.disableInput();
+                            #endif
+                        }
+                        #endif
+                        break;
+                    case sf::Event::JoystickMoved:
+                        #ifdef _USE_INPUT_
+                        if(settChangingKey && event.joystickButton.joystickId == (uint32_t)input.get_pad_id())
+                        {
+                            if(ABS(event.joystickMove.position) > JOYSTICK_DEAD_ZONE)
+                            {
+                                input.bindPadButton(settKeyCode, (JOYSTICK_SETTING_OFFSET + event.joystickMove.axis) * SGN(event.joystickMove.position));
+                                input.reset();
+                                settChangingKey = false;
+                                #ifdef _USE_MENU_
+                                menus.delAndAdd(9);
+                                menus.disableInput();
+                                #endif
+                            }
+                        }
+                        #endif
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
 
         pre_update();
 
         #ifdef _USE_INPUT_
-        if(focus) input.update(&win);
+        if(focus) input.update(&win, focus);
         else input.reset();
         #endif
 
@@ -1029,7 +1039,7 @@ void Engine::garbageCollection()
 {
     static int32_t call_count = -1;
     ++call_count;
-    if(call_count == game_loop_maxupdates)
+    if(call_count == game_loop_maxupdates*300) // every 5 minutes
     {
         // thread cleaning
         threads.garbageCollection();
@@ -1080,21 +1090,21 @@ void Engine::load_ini()
     int tmp;
     for(int8_t i = 0; i < KCOUNT; ++i)
     {
-        if(inifile.exist("K"+mlib::int2str(i)+"K", "KEYBIND"))
+        if(inifile.exist("K"+std::to_string(i)+"K", "KEYBIND"))
         {
-            tmp = inifile.getIntData("K"+mlib::int2str(i)+"K", "KEYBIND");
+            tmp = inifile.getIntData("K"+std::to_string(i)+"K", "KEYBIND");
             if(tmp == ENGINE_UNBIND_KEY) input.unbingKey(i);
             else input.bindKey(i, static_cast<sf::Keyboard::Key>(tmp));
         }
-        if(inifile.exist("K"+mlib::int2str(i)+"M", "KEYBIND"))
+        if(inifile.exist("K"+std::to_string(i)+"M", "KEYBIND"))
         {
-            tmp = inifile.getIntData("K"+mlib::int2str(i)+"M", "KEYBIND");
+            tmp = inifile.getIntData("K"+std::to_string(i)+"M", "KEYBIND");
             if(tmp == ENGINE_UNBIND_KEY) input.unbingMouse(i);
             else input.bindMouse(i, static_cast<sf::Mouse::Button>(tmp));
         }
-        if(inifile.exist("K"+mlib::int2str(i)+"B", "KEYBIND"))
+        if(inifile.exist("K"+std::to_string(i)+"B", "KEYBIND"))
         {
-            tmp = inifile.getIntData("K"+mlib::int2str(i)+"B", "KEYBIND");
+            tmp = inifile.getIntData("K"+std::to_string(i)+"B", "KEYBIND");
             if(tmp == ENGINE_UNBIND_KEY) input.unbingPadButton(i);
             else input.bindPadButton(i, tmp);
         }
@@ -1123,18 +1133,18 @@ void Engine::refresh_ini()
     #ifdef _USE_INPUT_
     for(int8_t i = 0; i < KCOUNT; ++i)
     {
-        inifile.erase("K"+mlib::int2str(i)+"K", "KEYBIND");
-        inifile.erase("K"+mlib::int2str(i)+"M", "KEYBIND");
-        inifile.erase("K"+mlib::int2str(i)+"B", "KEYBIND");
+        inifile.erase("K"+std::to_string(i)+"K", "KEYBIND");
+        inifile.erase("K"+std::to_string(i)+"M", "KEYBIND");
+        inifile.erase("K"+std::to_string(i)+"B", "KEYBIND");
 
-        if(input.keyIsBinded(i)) inifile.editIntData("K"+mlib::int2str(i)+"K", input.getKeyID(i), "KEYBIND");
-        else inifile.editIntData("K"+mlib::int2str(i)+"K", ENGINE_UNBIND_KEY, "KEYBIND");
+        if(input.keyIsBinded(i)) inifile.editIntData("K"+std::to_string(i)+"K", input.getKeyID(i), "KEYBIND");
+        else inifile.editIntData("K"+std::to_string(i)+"K", ENGINE_UNBIND_KEY, "KEYBIND");
 
-        if(input.mouseIsBinded(i)) inifile.editIntData("K"+mlib::int2str(i)+"M", input.getMouseID(i), "KEYBIND");
-        else inifile.editIntData("K"+mlib::int2str(i)+"M", ENGINE_UNBIND_KEY, "KEYBIND");
+        if(input.mouseIsBinded(i)) inifile.editIntData("K"+std::to_string(i)+"M", input.getMouseID(i), "KEYBIND");
+        else inifile.editIntData("K"+std::to_string(i)+"M", ENGINE_UNBIND_KEY, "KEYBIND");
 
-        if(input.padButtonIsBinded(i)) inifile.editIntData("K"+mlib::int2str(i)+"B", input.getPadButtonID(i), "KEYBIND");
-        else inifile.editIntData("K"+mlib::int2str(i)+"B", ENGINE_UNBIND_KEY, "KEYBIND");
+        if(input.padButtonIsBinded(i)) inifile.editIntData("K"+std::to_string(i)+"B", input.getPadButtonID(i), "KEYBIND");
+        else inifile.editIntData("K"+std::to_string(i)+"B", ENGINE_UNBIND_KEY, "KEYBIND");
     }
     #endif
     #endif

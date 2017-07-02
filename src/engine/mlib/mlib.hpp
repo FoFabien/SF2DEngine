@@ -33,7 +33,7 @@ namespace mlib
     std::string long2hex(const int64_t i);
     std::string ulong2str(const uint64_t i);
     std::string ulong2hex(const uint64_t i);
-    std::string float2str(const float i);
+    std::string float2str(const float i, const size_t precision = 2);
     std::string float2hex(const float i);
 
     std::string wstr2str(const std::wstring &i); // the wstring must contains an ansi string

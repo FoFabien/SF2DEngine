@@ -234,7 +234,7 @@ void Menu::initSpecial()
             engine.refreshVideoMode();
             const std::vector<sf::VideoMode> modes = engine.getVideoModeList();
             for(const sf::VideoMode &i : modes)
-                strings.push_back(mlib::int2str(i.width) + "x" + mlib::int2str(i.height));
+                strings.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
             strings.push_back("back");
 
             data->visuals[0].size2 += (strings.size() - 1) * 20;
@@ -321,8 +321,8 @@ void Menu::initSpecial()
             const std::vector<SlotState> states = engine.saves.getSlotState();
             for(size_t i = 0; i < states.size(); ++i)
             {
-                if(states[i].used) strings.push_back("Save " + mlib::int2str(i+1) + ": " + states[i].header);
-                else strings.push_back("Save " + mlib::int2str(i+1) + ": <empty>");
+                if(states[i].used) strings.push_back("Save " + std::to_string(i+1) + ": " + states[i].header);
+                else strings.push_back("Save " + std::to_string(i+1) + ": <empty>");
             }
             strings.push_back("back");
 
@@ -486,7 +486,7 @@ void Menu::validChoice(const std::string& sound)
                 case 0:
                     settVol += 5;
                     if(settVol > 100) settVol = 100;
-                    choices[0].v->draw->setString("< " + mlib::int2str(settVol) + "% >");
+                    choices[0].v->draw->setString("< " + std::to_string(settVol) + "% >");
                     #ifdef _USE_SOUND_
                     engine.sounds.play("so001.wav", settVol);
                     #endif
@@ -571,7 +571,7 @@ void Menu::cancelChoice(const std::string& sound)
                 case 0:
                     settVol -= 5;
                     if(settVol < 0) settVol = 0;
-                    choices[0].v->draw->setString("< " + mlib::int2str(settVol) + "% >");
+                    choices[0].v->draw->setString("< " + std::to_string(settVol) + "% >");
                     #ifdef _USE_SOUND_
                     engine.sounds.play("so001.wav", settVol);
                     #endif
@@ -653,7 +653,7 @@ void Menu::applyCustomRules(MenuActor& ref, const int32_t &id)
             switch(id)
             {
                 case 0:
-                    ref.v->draw->setString("< " + mlib::int2str(settVol) + "% >");
+                    ref.v->draw->setString("< " + std::to_string(settVol) + "% >");
                     return;
             }
             return;

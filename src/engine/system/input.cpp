@@ -1,13 +1,12 @@
 #include "input.hpp"
 #ifdef _USE_INPUT_
-#include "../mlib/mlib.hpp"
-#include "../engine.hpp"
+#include <SFML/Graphics.hpp>
 
-PadBind::PadBind()
+#include "../mlib/mlib.hpp"
+
+PadBind::PadBind():PadBind(999)
 {
-    isButton = true;
-    id = 0;
-    axis_positive = false;
+
 }
 
 PadBind::PadBind(int32_t value)
@@ -57,7 +56,7 @@ Input::Input()
 {
     mouse_enabled = false;
     mouse_pos = sf::Vector2i(-1, -1);
-    pad_id = -1;
+    pad_id = 8;
     while(keys.size() < KCOUNT) keys.push_back(InputKey());
     while(save.size() < KCOUNT) save.push_back(InputKey());
 }
@@ -95,14 +94,143 @@ void Input::init()
     bindPadButton(KSELECT, PadBind(106)); // back
 }
 
-void Input::update(const sf::Window *window)
+bool Input::readEvent(sf::Event &event)
 {
-    static sf::IntRect winsize_buffer;
-    if(mouse_enabled && window != nullptr && engine.hasFocus())
+    switch(event.type)
+    {
+        case sf::Event::KeyPressed:
+            for(InputKey &i : keys)
+                if(i.k_id == event.key.code)
+                {
+                    if(i.state == RELEASED)
+                    {
+                        i.state = PRESSED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+        case sf::Event::KeyReleased:
+            for(InputKey &i : keys)
+                if(i.k_id == event.key.code)
+                {
+                    if(i.state == PRESSED)
+                    {
+                        i.state = RELEASED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+         case sf::Event::MouseButtonPressed:
+            for(InputKey &i : keys)
+                if(i.m_id == event.mouseButton.button)
+                {
+                    if(i.state == RELEASED)
+                    {
+                        i.state = PRESSED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+        case sf::Event::MouseButtonReleased:
+            for(InputKey &i : keys)
+                if(i.m_id == event.mouseButton.button)
+                {
+                    if(i.state == PRESSED)
+                    {
+                        i.state = RELEASED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+        case sf::Event::JoystickButtonPressed:
+            if(event.joystickButton.joystickId != pad_id)
+                return false;
+            for(InputKey &i : keys)
+                if(i.b_id.isButton && i.b_id.id == event.joystickButton.button)
+                {
+                    if(i.state == RELEASED)
+                    {
+                        i.state = PRESSED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+        case sf::Event::JoystickButtonReleased:
+            if(event.joystickButton.joystickId != pad_id)
+                return false;
+            for(InputKey &i : keys)
+                if(i.b_id.isButton && i.b_id.id == event.joystickButton.button)
+                {
+                    if(i.state == PRESSED)
+                    {
+                        i.state = RELEASED_NOW;
+                        i.updated = true;
+                    }
+                    return true;
+                }
+            break;
+        case sf::Event::JoystickMoved:
+            if(event.joystickButton.joystickId != pad_id)
+                return false;
+            for(InputKey &i : keys)
+                if(!i.b_id.isButton && i.b_id.axis == event.joystickMove.axis)
+                {
+                    if(i.b_id.axis_positive)
+                    {
+                        if(i.state == RELEASED && event.joystickMove.position > JOYSTICK_DEAD_ZONE)
+                        {
+                            i.state = PRESSED_NOW;
+                            i.updated = true;
+                            return true;
+                        }
+                        else if(i.state == PRESSED && event.joystickMove.position <= JOYSTICK_DEAD_ZONE)
+                        {
+                            i.state = RELEASED_NOW;
+                            i.updated = true;
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if(i.state == RELEASED && event.joystickMove.position < -JOYSTICK_DEAD_ZONE)
+                        {
+                            i.state = PRESSED_NOW;
+                            i.updated = true;
+                            return true;
+                        }
+                        else if(i.state == PRESSED && event.joystickMove.position >= -JOYSTICK_DEAD_ZONE)
+                        {
+                            i.state = RELEASED_NOW;
+                            i.updated = true;
+                            return true;
+                        }
+                    }
+                }
+            break;
+        case sf::Event::JoystickConnected:
+            pad_connect(event);
+            return true;
+        case sf::Event::JoystickDisconnected:
+            pad_disconnect(event);
+            return true;
+        default:
+            break;
+    }
+    return false;
+}
+
+void Input::update(const sf::Window *window, bool focus)
+{
+    if(mouse_enabled && window && focus)
     {
         mouse_pos = sf::Mouse::getPosition(*window);
-        winsize_buffer = engine.getGameBounds();
-        if(mouse_pos.x < 0 || mouse_pos.y < 0 || mouse_pos.x >= winsize_buffer.width || mouse_pos.y >= winsize_buffer.height)
+        sf::Vector2u wsize = window->getSize();
+        if(mouse_pos.x < 0 || mouse_pos.y < 0 || mouse_pos.x >= (int)wsize.x || mouse_pos.y >= (int)wsize.y)
         {
             mouse_pos.x = -1;
             mouse_pos.y = -1;
@@ -114,34 +242,28 @@ void Input::update(const sf::Window *window)
         mouse_pos.y = -1;
     }
 
-    for(int8_t i = 0; i < KCOUNT; ++i)
+    for(InputKey &i : keys)
     {
-        InputKey* ptr = &keys[i];
-        bool current = false;
-        if(ptr->k_def && !current) current = sf::Keyboard::isKeyPressed(ptr->k_id);
-        if(ptr->b_def && !current) current = isPadPressed(ptr->b_id);
-        if(ptr->m_def && !current) current = sf::Mouse::isButtonPressed(ptr->m_id);
-
-        switch(ptr->state)
+        if(i.updated)
         {
-            case RELEASED:
-                if(current) ptr->state = PRESSED_NOW;
-                break;
-            case PRESSED:
-                if(!current) ptr->state = RELEASED_NOW;
-                break;
-            case RELEASED_NOW:
-                if(current) ptr->state = PRESSED_NOW;
-                else ptr->state = RELEASED;
-                break;
-            case PRESSED_NOW:
-                if(current) ptr->state = PRESSED;
-                else ptr->state = RELEASED_NOW;
-                break;
-            default:
-                if(current) ptr->state = PRESSED_NOW;
-                else ptr->state = RELEASED_NOW;
-                break;
+            i.updated = false;
+        }
+        else
+        {
+            switch(i.state)
+            {
+                case RELEASED_NOW:
+                    i.state = RELEASED;
+                    break;
+                case PRESSED_NOW:
+                    i.state = PRESSED;
+                    break;
+                case RELEASED:
+                case PRESSED:
+                    break;
+                default:
+                    i.state = RELEASED; // failsafe, in case of error
+            }
         }
     }
 }
@@ -163,22 +285,22 @@ sf::Vector2i Input::getMousePosition()
 
 void Input::reset()
 {
-    for(int8_t i = 0; i < KCOUNT; ++i) keys[i].state = 4;
+    for(int8_t i = 0; i < KCOUNT; ++i) keys[i].state = RELEASED;
 }
 
 void Input::reset(int8_t k)
 {
-    if(k >= 0 || k < KCOUNT) keys[k].state = 4;
+    if(k >= 0 || k < KCOUNT) keys[k].state = RELEASED;
 }
 
 void Input::resetState()
 {
-    for(int8_t i = 0; i < KCOUNT; ++i) save[i].state = 4;
+    for(int8_t i = 0; i < KCOUNT; ++i) save[i].state = RELEASED;
 }
 
 void Input::resetState(int8_t k)
 {
-    if(k >= 0 || k < KCOUNT) save[k].state = 4;
+    if(k >= 0 || k < KCOUNT) save[k].state = RELEASED;
 }
 
 bool Input::isPressed(int8_t k) const
@@ -426,7 +548,7 @@ std::string Input::getPadButtonString(int8_t k) const
     if(k < 0 || k >= KCOUNT) return "";
     if(keys[k].b_def)
     {
-        if(keys[k].b_id.isButton) return "Button" + mlib::int2str(keys[k].b_id.id);
+        if(keys[k].b_id.isButton) return "Button" + std::to_string(keys[k].b_id.id);
         else
         {
             if(keys[k].b_id.axis_positive == false)
@@ -469,7 +591,7 @@ int32_t Input::get_pad_id() const
 
 bool Input::pad_isConnected() const
 {
-    if(pad_id == -1) return false;
+    if(pad_id == 8) return false;
     return sf::Joystick::isConnected(pad_id);
 }
 
@@ -480,14 +602,14 @@ bool Input::pad_isConnected(const int32_t &id) const
 
 void Input::pad_connect(sf::Event &event)
 {
-    if(event.type != sf::Event::JoystickConnected || pad_id != -1) return;
+    if(event.type != sf::Event::JoystickConnected || pad_id != 8) return;
     pad_id = event.joystickConnect.joystickId;
-    Out = "Input: Current gamepad set to #" + mlib::int2str(pad_id) + "\n";
+    Out = "Input: Current gamepad set to #" + std::to_string(pad_id) + "\n";
 }
 
 void Input::pad_disconnect(sf::Event &event)
 {
-    if(event.type == sf::Event::JoystickDisconnected && pad_id == (int)event.joystickConnect.joystickId) pad_auto_connect();
+    if(event.type == sf::Event::JoystickDisconnected && pad_id == event.joystickConnect.joystickId) pad_auto_connect();
 }
 
 bool Input::pad_auto_connect()
@@ -496,10 +618,10 @@ bool Input::pad_auto_connect()
         if(pad_isConnected(i))
         {
             pad_id = i;
-            Out = "Input: Current gamepad set to #" + mlib::int2str(pad_id) + "\n";
+            Out = "Input: Current gamepad set to #" + std::to_string(pad_id) + "\n";
             return true;
         }
-    pad_id = -1;
+    pad_id = 8;
     Out = "Input: No gamepad detected\n";
     return false;
 }
@@ -522,4 +644,5 @@ void Input::loadState()
 {
     keys = save;
 }
+
 #endif

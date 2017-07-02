@@ -137,9 +137,9 @@ MapEditor::~MapEditor()
     delete textInput;
 
     Out = "Engine stopped\n";
-    Out = "Running time : " + mlib::uint2str(Out.t() / 3600) + " hours "
-                                + mlib::uint2str(Out.t()  / 60) + " minutes "
-                                + mlib::uint2str(Out.t()  % 60) + " seconds\n";
+    Out = "Running time : " + std::to_string(Out.t() / 3600) + " hours "
+                                + std::to_string(Out.t()  / 60) + " minutes "
+                                + std::to_string(Out.t()  % 60) + " seconds\n";
 }
 
 void MapEditor::stop()
@@ -831,9 +831,9 @@ void MapEditor::hud()
                 pos.x += cam.left;
                 pos.y += cam.top;
                 if(map && map->hasTileSet())
-                text.setString("x=" + mlib::int2str(pos.x) + " (" + mlib::int2str(pos.x/map->getTileSize().x) +
-                               ")\ny=" + mlib::int2str(pos.y) + " (" + mlib::int2str(pos.y/map->getTileSize().y) + ")");
-                else text.setString("x=" + mlib::int2str(pos.x) + "\ny=" + mlib::int2str(pos.y));
+                text.setString("x=" + std::to_string(pos.x) + " (" + std::to_string(pos.x/map->getTileSize().x) +
+                               ")\ny=" + std::to_string(pos.y) + " (" + std::to_string(pos.y/map->getTileSize().y) + ")");
+                else text.setString("x=" + std::to_string(pos.x) + "\ny=" + std::to_string(pos.y));
             }
             else text.setString("x=?\ny=?");
         }
@@ -843,9 +843,9 @@ void MapEditor::hud()
 
         if(map)
         {
-            text.setString("Map size: " + mlib::uint2str(map->getSize().x) + "x" + mlib::uint2str(map->getSize().y)
-                           + "\nlayer: " + mlib::int2str(map->getLayerCount()) + " curent: " + mlib::int2str(map->getSelectedLayer())
-                           + " | script: " + mlib::int2str(map->script_id)
+            text.setString("Map size: " + std::to_string(map->getSize().x) + "x" + std::to_string(map->getSize().y)
+                           + "\nlayer: " + std::to_string(map->getLayerCount()) + " curent: " + std::to_string(map->getSelectedLayer())
+                           + " | script: " + std::to_string(map->script_id)
                            );
             text.setPosition(600, win.getSize().y - HUD_TOOLBAR_H);
             draw(&text);
@@ -1353,9 +1353,9 @@ void Map::drawLow()
                     epos.setPosition(entities[l][e].x, entities[l][e].y);
                     engine.draw(&epos);
                     std::string ename;
-                    if(entities[l][e].id < 0 || entities[l][e].id >= ENTITY_COUNT) ename = "[" + mlib::uint2str(entities[l][e].id) + "] ???";
-                    else ename = "[" + mlib::uint2str(entities[l][e].id) + "] " + entity_test_database[entities[l][e].id];
-                    ename = ename + "\n" + mlib::int2str(entities[l][e].x) + "x" + mlib::int2str(entities[l][e].y);
+                    if(entities[l][e].id < 0 || entities[l][e].id >= ENTITY_COUNT) ename = "[" + std::to_string(entities[l][e].id) + "] ???";
+                    else ename = "[" + std::to_string(entities[l][e].id) + "] " + entity_test_database[entities[l][e].id];
+                    ename = ename + "\n" + std::to_string(entities[l][e].x) + "x" + std::to_string(entities[l][e].y);
                     etext.setString(ename);
                     einfo.setSize(sf::Vector2f(ename.size()*3, 32));
                     einfo.setPosition(entities[l][e].x, entities[l][e].y);

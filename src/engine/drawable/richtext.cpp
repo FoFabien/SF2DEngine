@@ -37,7 +37,6 @@ void TextChunk::format(TextChunk*& current, TextChunk* last, int32_t style)
     else current->style |= style;
 }
 
-
 // RichText functions
 RichText::RichText()
 {

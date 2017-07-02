@@ -126,7 +126,7 @@ bool Save::loadSlot(int32_t s)
     if(!ready) return false;
     if(s < 0 || s >= max_slot) return false;
 
-    std::ifstream f((save_dir + "save" + mlib::int2str(s) + ".sav").c_str(), std::ios::in | std::ios::binary);
+    std::ifstream f((save_dir + "save" + std::to_string(s) + ".sav").c_str(), std::ios::in | std::ios::binary);
     if(!f) return false;
     MCrypto fc(C_READ);
     fc.readSeed(f);
@@ -205,7 +205,7 @@ bool Save::saveSlot(int32_t s)
     if(!ready) return false;
     if(s < 0 || s >= max_slot) return false;
 
-    std::ofstream f((save_dir + "save" + mlib::int2str(s) + ".sav").c_str(), std::ios::out | std::ios::trunc | std::ios::binary);
+    std::ofstream f((save_dir + "save" + std::to_string(s) + ".sav").c_str(), std::ios::out | std::ios::trunc | std::ios::binary);
     if(!f) return false;
     MCrypto fc(C_WRITE);
     fc.setSeed(mrand::rand());
@@ -272,7 +272,7 @@ void Save::refreshSlotState()
     {
         states.push_back(SlotState());
         error = false;
-        std::ifstream f((save_dir + "save" + mlib::int2str(i) + ".sav").c_str(), std::ios::in | std::ios::binary);
+        std::ifstream f((save_dir + "save" + std::to_string(i) + ".sav").c_str(), std::ios::in | std::ios::binary);
         if(f)
         {
             MCrypto fc(C_READ);

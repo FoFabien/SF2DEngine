@@ -19,7 +19,7 @@ void ManagerThread::clear()
         mutex.lock();
         if(i->running)
         {
-            Out = "Thread: Waiting for thread (ID:" + mlib::int2str(i->id) + ")...\n";
+            Out = "Thread: Waiting for thread (ID:" + std::to_string(i->id) + ")...\n";
             mutex.unlock();
             i->ptr->wait();
         }
